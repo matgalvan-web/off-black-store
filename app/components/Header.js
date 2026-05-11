@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 export default function Header({ cartCount, onCartClick, searchTerm, onSearchChange }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <header className="main-header">
       <Link href="/" className="brand-logo-link">
@@ -25,10 +27,18 @@ export default function Header({ cartCount, onCartClick, searchTerm, onSearchCha
           />
         </div>
         <div className="nav-actions">
-          <button className="auth-button">INICIAR SESIÓN</button>
-          <button className="auth-button register-button">REGISTRARSE</button>
-          <a href="#" className="cart-link" onClick={(e) => { e.preventDefault(); onCartClick(); }}>
-            CART (<span id="cart-count">{cartCount}</span>)
+          <button className="auth-button" title="Iniciar Sesión">
+            <span className="button-text-desktop">INICIAR SESIÓN</span>
+            <span className="button-text-mobile">SES.</span>
+          </button>
+          <button className="auth-button register-button" title="Registrarse">
+            <span className="button-text-desktop">REGISTRARSE</span>
+            <span className="button-text-mobile">REG.</span>
+          </button>
+          <a href="#" className="cart-link" onClick={(e) => { e.preventDefault(); onCartClick(); }} title="Carrito">
+            <span className="button-text-desktop">CART</span>
+            <span className="button-text-mobile">C</span>
+            (<span id="cart-count">{cartCount}</span>)
           </a>
         </div>
       </nav>

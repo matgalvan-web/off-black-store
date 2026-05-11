@@ -1038,3 +1038,294 @@ body::-webkit-scrollbar-thumb:hover {
     height: 55px;
   }
 }
+
+/* ============ MOBILE RESPONSIVE ============ */
+
+/* Mostrar/Ocultar textos según dispositivo */
+.button-text-mobile {
+  display: none;
+}
+
+/* Tablets y pantallas medianas */
+@media (max-width: 768px) {
+  .button-text-desktop {
+    display: none;
+  }
+
+  .button-text-mobile {
+    display: inline;
+  }
+  /* Header Mobile */
+  .main-header {
+    grid-template-columns: auto 1fr auto;
+    padding: 16px 20px;
+    gap: 12px;
+  }
+
+  .brand-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand-name {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+  }
+
+  .sub-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .search-container {
+    display: none;
+  }
+
+  .nav-actions {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+  }
+
+  .auth-button,
+  .cart-link {
+    font-size: 0.65rem;
+    padding: 6px 8px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Content Wrapper */
+  .content-wrapper {
+    padding-top: 120px;
+  }
+
+  /* Hero Section */
+  .hero {
+    min-height: 50vh;
+    padding: 40px 20px;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    line-height: 1.1;
+  }
+
+  .hero-label {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+  }
+
+  .hero-description {
+    font-size: 0.8rem;
+    margin-bottom: 24px;
+  }
+
+  .hero-cta {
+    padding: 12px 24px;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+  }
+
+  /* Featured Collections */
+  .featured-collections {
+    padding: 40px 20px;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    margin-bottom: 24px;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    margin-bottom: 8px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .feature-card img {
+    height: 200px;
+  }
+
+  /* Lookbook */
+  .lookbook-section {
+    padding: 40px 20px;
+  }
+
+  .lookbook-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .lookbook-card img {
+    height: 250px;
+  }
+
+  /* Productos Grid - 2 COLUMNAS EN MÓVIL */
+  .productos-section {
+    padding: 40px 20px;
+  }
+
+  .productos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .producto-item .image-box {
+    height: 200px;
+  }
+
+  .item-meta {
+    padding: 12px;
+    gap: 6px;
+  }
+
+  .item-meta span:first-child {
+    font-size: 0.7rem;
+  }
+
+  .item-meta span:last-child {
+    font-size: 0.75rem;
+  }
+
+  /* Modal */
+  .modal-content {
+    padding: 24px;
+    width: 90%;
+  }
+
+  .modal-name {
+    font-size: 1.5rem;
+  }
+
+  .modal-price {
+    font-size: 1rem;
+  }
+
+  /* Cart Modal */
+  .cart-modal {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .cart-header {
+    padding: 16px;
+  }
+
+  .cart-item {
+    padding: 12px;
+  }
+
+  .cart-footer {
+    padding: 16px;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+  .main-header {
+    padding: 12px 16px;
+    gap: 8px;
+  }
+
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .brand-name {
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+  }
+
+  .nav-actions {
+    gap: 4px;
+  }
+
+  .auth-button,
+  .cart-link {
+    font-size: 0.55rem;
+    padding: 4px 6px;
+  }
+
+  .content-wrapper {
+    padding-top: 100px;
+  }
+
+  .hero {
+    min-height: 40vh;
+    padding: 30px 16px;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+    letter-spacing: 0px;
+  }
+
+  .hero-description {
+    font-size: 0.75rem;
+  }
+
+  .featured-collections {
+    padding: 30px 16px;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+
+  .lookbook-section {
+    padding: 30px 16px;
+  }
+
+  .lookbook-grid {
+    gap: 8px;
+  }
+
+  .lookbook-card img {
+    height: 180px;
+  }
+
+  .productos-section {
+    padding: 30px 16px;
+  }
+
+  .productos-grid {
+    gap: 8px;
+  }
+
+  .producto-item .image-box {
+    height: 160px;
+  }
+
+  .item-meta {
+    padding: 10px;
+  }
+
+  .item-meta span:first-child {
+    font-size: 0.65rem;
+  }
+
+  .item-meta span:last-child {
+    font-size: 0.7rem;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .modal-name {
+    font-size: 1.3rem;
+  }
+}
