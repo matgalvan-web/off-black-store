@@ -1,11 +1,24 @@
 'use client';
 
+import { useState } from 'react';
 import { productos } from '../data/productos';
 
 export default function ProductModal({ productId, onClose, onAddToCart }) {
   const producto = productos.find(p => p.id === productId);
+  const [selectedColor, setSelectedColor] = useState(producto?.colores[0]?.nombre || '');
+  const [selectedSize, setSelectedSize] = useState(producto?.talles?.[0] || '');
 
   if (!producto) return null;
+
+  const handleAddToCart = () => {
+    const productoConOpciones = {
+      ...producto,
+      colorSeleccionado: selectedColor,
+      talleSeleccionado: selectedSize || null,
+    };
+    onAddToCart(productoConOpciones);
+    onClose();
+  };
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -13,9 +26,53 @@ export default function ProductModal({ productId, onClose, onAddToCart }) {
         <button className="modal-close" onClick={onClose}>&times;</button>
         <h2 className="modal-name">{producto.nombre}</h2>
         <p className="modal-price">${producto.precio.toLocaleString('es-AR')}</p>
+        
+        {producto.colores && producto.colores.length > 0 && (
+          <div className="product-colors">
+            <label>COLOR:</label>
+            <div className="color-options">
+              {producto.colores.map((color) => (
+                <button
+                  key={color.nombre}
+                  className={`color-option ${selectedColor === color.nombre ? 'selected' : ''}`}
+                  title={color.nombre}
+                  onClick={() => setSelectedColor(color.nombre)}
+                  style={{ backgroundColor: color.nombre.toLowerCase() === 'negro' ? '#000' : 
+                          color.nombre.toLowerCase() === 'blanco' ? '#fff' :
+                          color.nombre.toLowerCase() === 'gris' ? '#888' :
+                          color.nombre.toLowerCase() === 'azul' ? '#0066ff' :
+                          color.nombre.toLowerCase() === 'crema' ? '#f5f1e8' :
+                          color.nombre.toLowerCase() === 'marrón' ? '#8b6f47' :
+                          color.nombre.toLowerCase() === 'verde' ? '#228b22' :
+                          color.nombre.toLowerCase() === 'camuflado' ? '#6b8e23' : '#ccc' }}
+                >
+                  {color.nombre}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {producto.talles && producto.talles.length > 0 && (
+          <div className="product-sizes">
+            <label>TALLE:</label>
+            <div className="size-options">
+              {producto.talles.map((talle) => (
+                <button
+                  key={talle}
+                  className={`size-option ${selectedSize === talle ? 'selected' : ''}`}
+                  onClick={() => setSelectedSize(talle)}
+                >
+                  {talle}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        
         <button 
           className="modal-add-btn"
-          onClick={() => { onAddToCart(producto); onClose(); }}
+          onClick={handleAddToCart}
         >
           AGREGAR AL CARRITO
         </button>

@@ -5,6 +5,7 @@ export const productos = [
     precio: 200000, 
     imagen: "/Imagenes/camperamarron.png.webp",
     categoria: "camperas",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Marrón", imagen: "/Imagenes/camperamarron.png.webp" },
       { nombre: "Negro", imagen: "/Imagenes/camperanegra.png.webp" }
@@ -16,6 +17,7 @@ export const productos = [
     precio: 150000, 
     imagen: "/Imagenes/jeangris.png.webp",
     categoria: "pantalones",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Gris", imagen: "/Imagenes/jeangris.png.webp" }
     ]
@@ -46,6 +48,7 @@ export const productos = [
     precio: 35000, 
     imagen: "/Imagenes/gorroinvierno.png.webp",
     categoria: "accesorios",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Negro", imagen: "/Imagenes/gorroinvierno.png.webp" }
     ]
@@ -56,6 +59,7 @@ export const productos = [
     precio: 30000, 
     imagen: "/Imagenes/guantesfrio.png.webp",
     categoria: "accesorios",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Negro", imagen: "/Imagenes/guantesfrio.png.webp" }
     ]
@@ -66,6 +70,7 @@ export const productos = [
     precio: 120000, 
     imagen: "/Imagenes/hoodiegris.png.webp",
     categoria: "buzos",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Gris", imagen: "/Imagenes/hoodiegris.png.webp" },
       { nombre: "Negro", imagen: "/Imagenes/hoodienegropng.webp" }
@@ -77,6 +82,7 @@ export const productos = [
     precio: 120000, 
     imagen: "/Imagenes/hoodienegropng.webp",
     categoria: "buzos",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Negro", imagen: "/Imagenes/hoodienegropng.webp" },
       { nombre: "Gris", imagen: "/Imagenes/hoodiegris.png.webp" }
@@ -155,6 +161,7 @@ export const productos = [
     precio: 40000, 
     imagen: "/Imagenes/packmediaspng.webp",
     categoria: "packs",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Negro", imagen: "/Imagenes/packmediaspng.webp" }
     ]
@@ -165,6 +172,7 @@ export const productos = [
     precio: 70000, 
     imagen: "/Imagenes/packmusculosas.png.webp",
     categoria: "packs",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Blanco", imagen: "/Imagenes/packmusculosas.png.webp" }
     ]
@@ -175,6 +183,7 @@ export const productos = [
     precio: 130000, 
     imagen: "/Imagenes/pantalonblanco.png.webp",
     categoria: "pantalones",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Blanco", imagen: "/Imagenes/pantalonblanco.png.webp" },
       { nombre: "Crema", imagen: "/Imagenes/pantaloncrema.png.webp" }
@@ -186,6 +195,7 @@ export const productos = [
     precio: 130000, 
     imagen: "/Imagenes/pantaloncrema.png.webp",
     categoria: "pantalones",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Crema", imagen: "/Imagenes/pantaloncrema.png.webp" },
       { nombre: "Blanco", imagen: "/Imagenes/pantalonblanco.png.webp" }
@@ -197,6 +207,7 @@ export const productos = [
     precio: 200000, 
     imagen: "/Imagenes/rompevientoscrema.png.webp",
     categoria: "camperas",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Crema", imagen: "/Imagenes/rompevientoscrema.png.webp" },
       { nombre: "Negro", imagen: "/Imagenes/camperanegra.png.webp" }
@@ -208,6 +219,7 @@ export const productos = [
     precio: 60000, 
     imagen: "/Imagenes/remerasblancas.png.webp",
     categoria: "remeras",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Blanco", imagen: "/Imagenes/remerasblancas.png.webp" },
       { nombre: "Verde", imagen: "/Imagenes/remerasverdes.png.webp" }
@@ -219,6 +231,7 @@ export const productos = [
     precio: 60000, 
     imagen: "/Imagenes/remerasverdes.png.webp",
     categoria: "remeras",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Verde", imagen: "/Imagenes/remerasverdes.png.webp" },
       { nombre: "Blanco", imagen: "/Imagenes/remerasblancas.png.webp" }
@@ -230,6 +243,7 @@ export const productos = [
     precio: 220000, 
     imagen: "/Imagenes/camperaazul.png.webp",
     categoria: "camperas",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Azul", imagen: "/Imagenes/camperaazul.png.webp" },
       { nombre: "Negro", imagen: "/Imagenes/camperanegra.png.webp" }
@@ -241,6 +255,7 @@ export const productos = [
     precio: 200000, 
     imagen: "/Imagenes/camperacamuflada.png.webp",
     categoria: "camperas",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Camuflado", imagen: "/Imagenes/camperacamuflada.png.webp" },
       { nombre: "Negro", imagen: "/Imagenes/camperapuffer.png.webp" },
@@ -253,6 +268,7 @@ export const productos = [
     precio: 240000, 
     imagen: "/Imagenes/camperapuffer.png.webp",
     categoria: "camperas",
+    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Negro", imagen: "/Imagenes/camperapuffer.png.webp" },
       { nombre: "Azul", imagen: "/Imagenes/camperaazul.png.webp" },

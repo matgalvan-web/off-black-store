@@ -41,6 +41,12 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
                   <div className="cart-item-info">
                     <h3 className="cart-item-name">{item.nombre}</h3>
                     <p className="cart-item-price">${item.precio.toLocaleString('es-AR')}</p>
+                    {item.colorSeleccionado && (
+                      <p className="cart-item-detail">Color: {item.colorSeleccionado}</p>
+                    )}
+                    {item.talleSeleccionado && (
+                      <p className="cart-item-detail">Talle: {item.talleSeleccionado}</p>
+                    )}
                     <div className="cart-item-quantity">
                       <span>Cantidad: {item.cantidad}</span>
                     </div>
