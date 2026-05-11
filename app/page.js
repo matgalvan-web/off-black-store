@@ -8,6 +8,8 @@ import Lookbook from './components/Lookbook';
 import Productos from './components/Productos';
 import ProductModal from './components/ProductModal';
 import CartModal from './components/CartModal';
+import LoginModal from './components/LoginModal';
+import RegisterModal from './components/RegisterModal';
 import Toast from './components/Toast';
 import Footer from './components/Footer';
 import { CartContext } from './context/CartContext';
@@ -100,6 +102,9 @@ export default function Home() {
         onClose={hideToast}
         type={toast.type}
       />
+
+      <LoginModal />
+      <RegisterModal />
     </main>
   );
 }
