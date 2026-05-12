@@ -7,6 +7,7 @@ export default function ProductDetail({ producto, onAddToCart }) {
   const [selectedColor, setSelectedColor] = useState(
     producto.colores?.[0] || { nombre: '', imagen: producto.imagen }
   );
+  const [selectedSize, setSelectedSize] = useState(producto?.talles?.[0] || '');
   const router = useRouter();
 
   // Actualizar color seleccionado cuando cambia el producto
@@ -14,13 +15,15 @@ export default function ProductDetail({ producto, onAddToCart }) {
     setSelectedColor(
       producto.colores?.[0] || { nombre: '', imagen: producto.imagen }
     );
+    setSelectedSize(producto?.talles?.[0] || '');
   }, [producto.id]);
 
   const handleAddToCart = () => {
     onAddToCart({
       ...producto,
       imagen: selectedColor.imagen,
-      color: selectedColor.nombre
+      color: selectedColor.nombre,
+      talleSeleccionado: selectedSize || null
     });
   };
 
@@ -71,6 +74,23 @@ export default function ProductDetail({ producto, onAddToCart }) {
                     title={color.nombre}
                   >
                     <img src={color.imagen} alt={color.nombre} />
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {producto.talles && producto.talles.length > 0 && (
+            <div className="size-selection">
+              <p className="size-label">Talle: <strong>{selectedSize}</strong></p>
+              <div className="size-options">
+                {producto.talles.map((talle, index) => (
+                  <button
+                    key={index}
+                    className={`size-option ${selectedSize === talle ? 'selected' : ''}`}
+                    onClick={() => setSelectedSize(talle)}
+                  >
+                    {talle}
                   </button>
                 ))}
               </div>

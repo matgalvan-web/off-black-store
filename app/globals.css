@@ -139,10 +139,6 @@ body::-webkit-scrollbar-thumb:hover {
   gap: 24px;
 }
 
-.nav-links-mobile {
-  display: none;
-}
-
 .historia-link {
   color: #a2a2a2;
   text-decoration: none;
@@ -1061,6 +1057,10 @@ body::-webkit-scrollbar-thumb:hover {
   margin-bottom: 40px;
 }
 
+.size-selection {
+  margin-bottom: 40px;
+}
+
 .color-label {
   font-size: 0.9rem;
   color: #888;
@@ -1068,6 +1068,16 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .color-label strong {
+  color: #fff;
+}
+
+.size-label {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 16px;
+}
+
+.size-label strong {
   color: #fff;
 }
 
@@ -1202,10 +1212,6 @@ body::-webkit-scrollbar-thumb:hover {
 
   .nav-links {
     display: none;
-  }
-
-  .nav-links-mobile {
-    display: flex;
   }
 
   .search-container {
