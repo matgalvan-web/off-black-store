@@ -10,6 +10,15 @@ export function AuthProvider({ children }) {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [authMessage, setAuthMessage] = useState('');
 
+  // Email válido con un solo @ obligatorio
+  const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/;
+  const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  const namePattern = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,50}$/;
+
+  const isValidEmail = (email) => emailPattern.test(email.trim());
+  const isValidPassword = (password) => passwordPattern.test(password);
+  const isValidName = (name) => namePattern.test(name.trim());
+
   // Cargar usuario del localStorage al iniciar
   useEffect(() => {
     try {
@@ -26,15 +35,27 @@ export function AuthProvider({ children }) {
     try {
       const users = JSON.parse(localStorage.getItem('users') || '[]');
       
+      // Validar nombre
+      if (!isValidName(name)) {
+        setAuthMessage('El nombre debe tener entre 2 y 50 letras y espacios');
+        return false;
+      }
+
+      // Validar email
+      if (!isValidEmail(email)) {
+        setAuthMessage('Ingresa un email válido');
+        return false;
+      }
+
       // Verificar si el email ya existe
-      if (users.find(u => u.email === email)) {
+      if (users.find(u => u.email === email.trim())) {
         setAuthMessage('Este email ya está registrado');
         return false;
       }
 
       // Validar contraseña
-      if (password.length < 6) {
-        setAuthMessage('La contraseña debe tener al menos 6 caracteres');
+      if (!isValidPassword(password)) {
+        setAuthMessage('La contraseña debe tener al menos 8 caracteres, una letra, un número y un carácter especial');
         return false;
       }
 
@@ -62,8 +83,20 @@ export function AuthProvider({ children }) {
 
   const login = (email, password) => {
     try {
+      // Validar email antes de autenticar
+      if (!isValidEmail(email)) {
+        setAuthMessage('Email no válido');
+        return false;
+      }
+
+      // Validar formato de contraseña mínimo
+      if (password.length < 6) {
+        setAuthMessage('La contraseña debe tener al menos 6 caracteres');
+        return false;
+      }
+
       const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const foundUser = users.find(u => u.email === email && u.password === password);
+      const foundUser = users.find(u => u.email === email.trim() && u.password === password);
 
       if (!foundUser) {
         setAuthMessage('Email o contraseña incorrectos');
