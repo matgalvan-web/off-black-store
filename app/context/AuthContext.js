@@ -12,8 +12,9 @@ export function AuthProvider({ children }) {
   const [authMessage, setAuthMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
+  // Email válido con un solo @ obligatorio
   const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/;
-  const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  const passwordPattern = /^.{6,}$/;
   const namePattern = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,50}$/;
 
   const isValidEmail = (email) => emailPattern.test(email.trim());
@@ -54,7 +55,7 @@ export function AuthProvider({ children }) {
 
       // Validate password
       if (!isValidPassword(password)) {
-        setAuthMessage('La contraseña debe tener al menos 8 caracteres, una letra, un número y un carácter especial');
+        setAuthMessage('La contraseña debe tener al menos 6 caracteres');
         return false;
       }
 
