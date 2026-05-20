@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useState, useEffect } from 'react';
+import { registerUser, loginUser, logoutUser, getCurrentUser } from '../../lib/supabaseOperations';
 
 export const AuthContext = createContext();
 
@@ -9,8 +10,8 @@ export function AuthProvider({ children }) {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [authMessage, setAuthMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Email válido con un solo @ obligatorio
   const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/;
   const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
   const namePattern = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,50}$/;
@@ -19,58 +20,55 @@ export function AuthProvider({ children }) {
   const isValidPassword = (password) => passwordPattern.test(password);
   const isValidName = (name) => namePattern.test(name.trim());
 
-  // Cargar usuario del localStorage al iniciar
+  // Check logged in user on mount
   useEffect(() => {
-    try {
-      const savedUser = localStorage.getItem('currentUser');
-      if (savedUser) {
-        setUser(JSON.parse(savedUser));
+    const checkUser = async () => {
+      try {
+        const result = await getCurrentUser();
+        if (result.success && result.user) {
+          setUser(result.user);
+        }
+      } catch (error) {
+        console.error('Error checking user:', error);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Error loading user:', error);
-    }
+    };
+
+    checkUser();
   }, []);
 
-  const register = (email, password, name) => {
+  const register = async (email, password, name) => {
     try {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      
-      // Validar nombre
+      // Validate name
       if (!isValidName(name)) {
         setAuthMessage('El nombre debe tener entre 2 y 50 letras y espacios');
         return false;
       }
 
-      // Validar email
+      // Validate email
       if (!isValidEmail(email)) {
         setAuthMessage('Ingresa un email válido');
         return false;
       }
 
-      // Verificar si el email ya existe
-      if (users.find(u => u.email === email.trim())) {
-        setAuthMessage('Este email ya está registrado');
-        return false;
-      }
-
-      // Validar contraseña
+      // Validate password
       if (!isValidPassword(password)) {
         setAuthMessage('La contraseña debe tener al menos 8 caracteres, una letra, un número y un carácter especial');
         return false;
       }
 
-      const newUser = {
-        id: Date.now(),
-        name,
-        email,
-        password, // En producción, esto debe ser hasheado
-      };
+      const result = await registerUser(name, email, password);
 
-      users.push(newUser);
-      localStorage.setItem('users', JSON.stringify(users));
-      localStorage.setItem('currentUser', JSON.stringify({ id: newUser.id, name: newUser.name, email: newUser.email }));
-      
-      setUser({ id: newUser.id, name: newUser.name, email: newUser.email });
+      if (!result.success) {
+        if (result.error.includes('already registered')) {
+          setAuthMessage('Este email ya está registrado');
+        } else {
+          setAuthMessage('Error al registrar: ' + result.error);
+        }
+        return false;
+      }
+
       setAuthMessage('¡Cuenta creada exitosamente!');
       setIsRegisterOpen(false);
       
@@ -81,31 +79,28 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const login = (email, password) => {
+  const login = async (email, password) => {
     try {
-      // Validar email antes de autenticar
+      // Validate email
       if (!isValidEmail(email)) {
         setAuthMessage('Email no válido');
         return false;
       }
 
-      // Validar formato de contraseña mínimo
+      // Validate password format
       if (password.length < 6) {
         setAuthMessage('La contraseña debe tener al menos 6 caracteres');
         return false;
       }
 
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const foundUser = users.find(u => u.email === email.trim() && u.password === password);
+      const result = await loginUser(email, password);
 
-      if (!foundUser) {
+      if (!result.success) {
         setAuthMessage('Email o contraseña incorrectos');
         return false;
       }
 
-      const userData = { id: foundUser.id, name: foundUser.name, email: foundUser.email };
-      localStorage.setItem('currentUser', JSON.stringify(userData));
-      setUser(userData);
+      setUser(result.user);
       setAuthMessage('¡Sesión iniciada!');
       setIsLoginOpen(false);
       
@@ -116,10 +111,14 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('currentUser');
-    setUser(null);
-    setAuthMessage('Sesión cerrada');
+  const logout = async () => {
+    try {
+      await logoutUser();
+      setUser(null);
+      setAuthMessage('Sesión cerrada');
+    } catch (error) {
+      setAuthMessage('Error al cerrar sesión');
+    }
   };
 
   return (
@@ -135,6 +134,7 @@ export function AuthProvider({ children }) {
         logout,
         authMessage,
         setAuthMessage,
+        isLoading,
       }}
     >
       {children}
