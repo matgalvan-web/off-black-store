@@ -4,7 +4,7 @@ import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 export default function LoginModal() {
-  const { isLoginOpen, setIsLoginOpen, login, authMessage, setAuthMessage } = useContext(AuthContext);
+  const { isLoginOpen, setIsLoginOpen, login, authMessage, setAuthMessage, setIsRegisterOpen } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -12,15 +12,16 @@ export default function LoginModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    const success = login(email, password);
-    
-    if (success) {
-      setEmail('');
-      setPassword('');
+    try {
+      const success = await login(email, password);
+
+      if (success) {
+        setEmail('');
+        setPassword('');
+      }
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -81,10 +82,7 @@ export default function LoginModal() {
               className="auth-switch-btn"
               onClick={() => {
                 setIsLoginOpen(false);
-                setTimeout(() => {
-                  const { setIsRegisterOpen } = useContext(AuthContext);
-                  setIsRegisterOpen(true);
-                }, 0);
+                setIsRegisterOpen(true);
               }}
             >
               Regístrate aquí
