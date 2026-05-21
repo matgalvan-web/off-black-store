@@ -9,9 +9,10 @@ let adminUserUrl;
 let adminDbUrl;
 
 try {
-  const base = new URL(supabaseUrl);
-  adminUserUrl = new URL('/auth/v1/admin/users', base).toString();
-  adminDbUrl = new URL('/rest/v1/users', base).toString();
+  // Use only the origin (protocol + host) to avoid duplicating paths
+  const origin = new URL(supabaseUrl).origin;
+  adminUserUrl = origin + '/auth/v1/admin/users';
+  adminDbUrl = origin + '/rest/v1/users';
 } catch (error) {
   throw new Error('Invalid Supabase URL in environment variables');
 }
