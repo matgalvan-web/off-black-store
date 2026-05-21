@@ -19,7 +19,10 @@
    ```
    NEXT_PUBLIC_SUPABASE_URL=TU_PROJECT_URL
    NEXT_PUBLIC_SUPABASE_ANON_KEY=TU_ANON_KEY
+   SUPABASE_SERVICE_ROLE_KEY=TU_SERVICE_ROLE_KEY
    ```
+
+> Usa la `SERVICE_ROLE_KEY` solo en el servidor. Nunca la expongas en el frontend.
 
 ## Paso 3: Crear Tablas
 

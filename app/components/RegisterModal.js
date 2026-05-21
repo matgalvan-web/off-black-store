@@ -4,7 +4,7 @@ import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 export default function RegisterModal() {
-  const { isRegisterOpen, setIsRegisterOpen, register, authMessage, setAuthMessage, registerDisabled, setIsLoginOpen } = useContext(AuthContext);
+  const { isRegisterOpen, setIsRegisterOpen, register, authMessage, setAuthMessage, setIsLoginOpen } = useContext(AuthContext);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -101,7 +101,7 @@ export default function RegisterModal() {
               />
             </div>
             
-            <button type="submit" className="modal-add-btn" disabled={isLoading || registerDisabled}>
+            <button type="submit" className="modal-add-btn" disabled={isLoading}>
               {isLoading ? 'CARGANDO...' : 'REGISTRARSE'}
             </button>
           </form>

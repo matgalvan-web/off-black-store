@@ -11,7 +11,6 @@ export function AuthProvider({ children }) {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [authMessage, setAuthMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [registerDisabled, setRegisterDisabled] = useState(false);
 
   // Email válido con un solo @ obligatorio
   const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/;
@@ -42,11 +41,6 @@ export function AuthProvider({ children }) {
 
   const register = async (email, password, name) => {
     try {
-      if (registerDisabled) {
-        setAuthMessage('Espera un minuto antes de volver a intentar');
-        return false;
-      }
-
       // Validate name
       if (!isValidName(name)) {
         setAuthMessage('El nombre debe tener entre 2 y 50 letras y espacios');
@@ -68,11 +62,7 @@ export function AuthProvider({ children }) {
       const result = await registerUser(name, email, password);
 
       if (!result.success) {
-        if (result.error === 'rate_limit') {
-          setAuthMessage('Demasiados intentos. Vuelve a intentarlo en unos minutos.');
-          setRegisterDisabled(true);
-          setTimeout(() => setRegisterDisabled(false), 60000);
-        } else if (result.error.includes('already registered')) {
+        if (result.error.includes('already registered')) {
           setAuthMessage('Este email ya está registrado');
         } else {
           setAuthMessage('Error al registrar: ' + result.error);
@@ -146,7 +136,6 @@ export function AuthProvider({ children }) {
         authMessage,
         setAuthMessage,
         isLoading,
-        registerDisabled,
       }}
     >
       {children}
