@@ -62,7 +62,7 @@ export function AuthProvider({ children }) {
       const result = await registerUser(name, email, password);
 
       if (!result.success) {
-        if (result.error.includes('already registered')) {
+        if (result.error?.includes('already registered')) {
           setAuthMessage('Este email ya está registrado');
         } else {
           setAuthMessage('Error al registrar: ' + result.error);
@@ -70,10 +70,16 @@ export function AuthProvider({ children }) {
         return false;
       }
 
-      setAuthMessage('¡Cuenta creada exitosamente!');
-      setIsRegisterOpen(false);
-      
-      return true;
+      const loginResult = await loginUser(email, password);
+      if (loginResult.success) {
+        setUser(loginResult.user);
+        setAuthMessage('¡Cuenta creada exitosamente y sesión iniciada!');
+        setIsRegisterOpen(false);
+        return true;
+      }
+
+      setAuthMessage('Cuenta creada, pero no se pudo iniciar sesión: ' + loginResult.error);
+      return false;
     } catch (error) {
       setAuthMessage('Error al registrar');
       return false;
@@ -97,7 +103,7 @@ export function AuthProvider({ children }) {
       const result = await loginUser(email, password);
 
       if (!result.success) {
-        setAuthMessage('Email o contraseña incorrectos');
+        setAuthMessage(result.error || 'Email o contraseña incorrectos');
         return false;
       }
 
