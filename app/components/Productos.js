@@ -1,17 +1,29 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { productos } from '../data/productos';
+import { useEffect, useState } from 'react';
+import { getProducts } from '../../lib/supabaseOperations';
 
 export default function Productos({ searchTerm, onProductClick }) {
   const router = useRouter();
+  const [productos, setProductos] = useState([]);
   const busqueda = searchTerm.toLowerCase().trim();
-  const filtrados = productos.filter(p => 
-    p.nombre.toLowerCase().includes(busqueda)
-  );
+
+  useEffect(() => {
+    let mounted = true;
+    getProducts().then(res => {
+      if (!mounted) return;
+      if (res.success) setProductos(res.products || []);
+    });
+    return () => { mounted = false; };
+  }, []);
+
+  const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(busqueda));
 
   const handleProductClick = (id) => {
-    router.push(`/producto/${id}`);
+    // use legacy_id if present for compatibility
+    const targetId = id?.legacy_id ?? id;
+    router.push(`/producto/${targetId}`);
   };
 
   if (filtrados.length === 0 && busqueda !== '') {
@@ -31,9 +43,9 @@ export default function Productos({ searchTerm, onProductClick }) {
       <div className="productos-grid">
         {filtrados.map((producto) => (
           <div 
-            key={producto.id} 
+            key={producto.legacy_id ?? producto.id} 
             className="producto-item"
-            onClick={() => handleProductClick(producto.id)}
+            onClick={() => handleProductClick(producto.legacy_id ?? producto.id)}
           >
             <div className="image-box">
               <img src={producto.imagen} alt={producto.nombre} />

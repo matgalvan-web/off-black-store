@@ -1,12 +1,26 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { productos } from '../data/productos';
+import { useState, useEffect } from 'react';
+import { getProductByLegacyId } from '../../lib/supabaseOperations';
 
 export default function ProductModal({ productId, onClose, onAddToCart }) {
-  const producto = productos.find(p => p.id === productId);
-  const [selectedColor, setSelectedColor] = useState(producto?.colores[0]?.nombre || '');
-  const [selectedSize, setSelectedSize] = useState(producto?.talles?.[0] || '');
+  const [producto, setProducto] = useState(null);
+  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
+
+  useEffect(() => {
+    let mounted = true;
+    if (!productId) return;
+    getProductByLegacyId(productId).then(res => {
+      if (!mounted) return;
+      if (res.success) {
+        setProducto(res.product);
+        setSelectedColor(res.product?.colores?.[0]?.nombre || '');
+        setSelectedSize(res.product?.talles?.[0] || '');
+      }
+    });
+    return () => { mounted = false; };
+  }, [productId]);
 
   if (!producto) return null;
 
