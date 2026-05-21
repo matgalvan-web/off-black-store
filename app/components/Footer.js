@@ -18,7 +18,7 @@ export default function Footer() {
         </div>
         <div className="footer-section">
           <h4>OFF-BLACK</h4>
-          <Link href="#">Nuestra historia</Link>
+          <Link href="/historia" className="footer-historia-link">Nuestra historia</Link>
           <Link href="#">Locales</Link>
           <Link href="#">Contacto</Link>
         </div>

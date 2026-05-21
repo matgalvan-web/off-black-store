@@ -16,10 +16,7 @@ export default function Header({ cartCount, onCartClick, searchTerm, onSearchCha
       <h1 className="brand-name">OFF-BLACK</h1>
       <nav className="sub-nav">
         <div className="nav-links">
-          <Link href="/historia" className="historia-link" title="Historia de la marca">
-            <span className="button-text-desktop">HISTORIA</span>
-            <span className="button-text-mobile">HIST.</span>
-          </Link>
+          {/* Historia moved to footer per layout change */}
         </div>
         <div className="search-container">
           <input 
