@@ -24,11 +24,13 @@ export async function POST(request) {
       });
     }
 
-    const { data: userData, error: authError } = await supabaseAdmin.auth.admin.createUser({
+    const { data, error: authError } = await supabaseAdmin.auth.admin.createUser({
       email,
       password,
       email_confirm: true,
     });
+
+    const userData = data?.user || data;
 
     if (authError) {
       return new Response(JSON.stringify({ error: authError.message || 'Error al crear usuario' }), {
