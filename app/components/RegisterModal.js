@@ -20,14 +20,16 @@ export default function RegisterModal() {
     }
 
     setIsLoading(true);
-    const success = register(email, password, name);
-    setIsLoading(false);
-
-    if (success) {
-      setName('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
+    try {
+      const success = await register(email, password, name);
+      if (success) {
+        setName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 

@@ -62,7 +62,9 @@ export function AuthProvider({ children }) {
       const result = await registerUser(name, email, password);
 
       if (!result.success) {
-        if (result.error.includes('already registered')) {
+        if (result.error === 'rate_limit') {
+          setAuthMessage('Demasiados intentos. Vuelve a intentarlo en unos minutos.');
+        } else if (result.error.includes('already registered')) {
           setAuthMessage('Este email ya está registrado');
         } else {
           setAuthMessage('Error al registrar: ' + result.error);
