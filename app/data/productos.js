@@ -59,7 +59,6 @@ export const productos = [
     precio: 30000, 
     imagen: "/Imagenes/guantesfrio.png.webp",
     categoria: "accesorios",
-    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Negro", imagen: "/Imagenes/guantesfrio.png.webp" }
     ]
@@ -125,6 +124,7 @@ export const productos = [
     precio: 65000, 
     imagen: "/Imagenes/ojotasazul.png.webp",
     categoria: "calzado",
+    talles: ["37","38","39","40","41","42","43","44","45"],
     colores: [
       { nombre: "Azul", imagen: "/Imagenes/ojotasazul.png.webp" },
       { nombre: "Blanco", imagen: "/Imagenes/ojotasblancaspng.webp" },
@@ -137,6 +137,7 @@ export const productos = [
     precio: 65000, 
     imagen: "/Imagenes/ojotasblancaspng.webp",
     categoria: "calzado",
+    talles: ["37","38","39","40","41","42","43","44","45"],
     colores: [
       { nombre: "Blanco", imagen: "/Imagenes/ojotasblancaspng.webp" },
       { nombre: "Azul", imagen: "/Imagenes/ojotasazul.png.webp" },
@@ -149,6 +150,7 @@ export const productos = [
     precio: 65000, 
     imagen: "/Imagenes/ojotasverdes.png.webp",
     categoria: "calzado",
+    talles: ["37","38","39","40","41","42","43","44","45"],
     colores: [
       { nombre: "Verde", imagen: "/Imagenes/ojotasverdes.png.webp" },
       { nombre: "Azul", imagen: "/Imagenes/ojotasazul.png.webp" },
@@ -161,7 +163,7 @@ export const productos = [
     precio: 40000, 
     imagen: "/Imagenes/packmediaspng.webp",
     categoria: "packs",
-    talles: ["S", "M", "L", "XL"],
+    talles: ["37","38","39","40","41","42","43","44","45"],
     colores: [
       { nombre: "Negro", imagen: "/Imagenes/packmediaspng.webp" }
     ]
