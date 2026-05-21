@@ -22,6 +22,7 @@
    SUPABASE_SERVICE_ROLE_KEY=TU_SERVICE_ROLE_KEY
    ```
 
+> En el servidor se acepta también `SUPABASE_URL` como nombre de variable.
 > Usa la `SERVICE_ROLE_KEY` solo en el servidor. Nunca la expongas en el frontend.
 
 ## Paso 3: Crear Tablas
