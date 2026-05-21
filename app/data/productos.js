@@ -48,7 +48,6 @@ export const productos = [
     precio: 35000, 
     imagen: "/Imagenes/gorroinvierno.png.webp",
     categoria: "accesorios",
-    talles: ["S", "M", "L", "XL"],
     colores: [
       { nombre: "Negro", imagen: "/Imagenes/gorroinvierno.png.webp" }
     ]
