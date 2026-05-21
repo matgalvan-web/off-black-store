@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { getProductByLegacyId } from '../../lib/supabaseOperations';
+import { getProductById } from '../../lib/supabaseOperations';
 
 export default function ProductModal({ productId, onClose, onAddToCart }) {
   const [producto, setProducto] = useState(null);
@@ -11,7 +11,7 @@ export default function ProductModal({ productId, onClose, onAddToCart }) {
   useEffect(() => {
     let mounted = true;
     if (!productId) return;
-    getProductByLegacyId(productId).then(res => {
+    getProductById(productId).then(res => {
       if (!mounted) return;
       if (res.success) {
         setProducto(res.product);
