@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-export default function Lookbook({ onProductClick }) {
+export default function Lookbook() {
   const router = useRouter();
   
   const looks = [
@@ -10,13 +10,13 @@ export default function Lookbook({ onProductClick }) {
       imagen: '/Imagenes/hoodienegropng.webp',
       titulo: 'Atuendo nocturno',
       descripcion: 'Una composición moderna con silueta relajada y líneas sólidas.',
-      id: 8
+      id: 'e19cff1b-65f2-4712-af1c-54ae63c6b600' // GUANTES DE INVIERNO
     },
     {
       imagen: '/Imagenes/camperapuffer.png.webp',
       titulo: 'Textura y volumen',
       descripcion: 'La pieza técnica que define la temporada y agrega actitud a cada outfit.',
-      id: 24
+      id: '62ad3e46-aa60-4ab0-a5b1-ec832d2d3cc1' // CAMPERA PUFFER
     }
   ];
 

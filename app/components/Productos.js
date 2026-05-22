@@ -21,9 +21,7 @@ export default function Productos({ searchTerm, onProductClick }) {
   const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(busqueda));
 
   const handleProductClick = (id) => {
-    // use legacy_id if present for compatibility
-    const targetId = id?.legacy_id ?? id;
-    router.push(`/producto/${targetId}`);
+    router.push(`/producto/${id}`);
   };
 
   if (filtrados.length === 0 && busqueda !== '') {
@@ -43,9 +41,9 @@ export default function Productos({ searchTerm, onProductClick }) {
       <div className="productos-grid">
         {filtrados.map((producto) => (
           <div 
-            key={producto.legacy_id ?? producto.id} 
+            key={producto.id} 
             className="producto-item"
-            onClick={() => handleProductClick(producto.legacy_id ?? producto.id)}
+            onClick={() => handleProductClick(producto.id)}
           >
             <div className="image-box">
               <img src={producto.imagen} alt={producto.nombre} />
