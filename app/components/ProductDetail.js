@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function ProductDetail({ producto, onAddToCart }) {
   const [selectedColor, setSelectedColor] = useState(
@@ -10,12 +11,12 @@ export default function ProductDetail({ producto, onAddToCart }) {
   const [selectedSize, setSelectedSize] = useState(producto?.talles?.[0] || '');
   const router = useRouter();
 
-  // Actualizar color seleccionado cuando cambia el producto
   useEffect(() => {
     setSelectedColor(
       producto.colores?.[0] || { nombre: '', imagen: producto.imagen }
     );
     setSelectedSize(producto?.talles?.[0] || '');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [producto.id]);
 
   const handleAddToCart = () => {
@@ -44,15 +45,19 @@ export default function ProductDetail({ producto, onAddToCart }) {
       <div className="product-detail-content">
         <div className="product-image-container">
           {producto.colores && producto.colores.length > 1 ? (
-            <img 
-              src={selectedColor.imagen} 
+            <Image
+              src={selectedColor.imagen}
               alt={producto.nombre}
+              width={800}
+              height={800}
               className="product-detail-image"
             />
           ) : (
-            <img 
-              src={producto.imagen} 
+            <Image
+              src={producto.imagen}
               alt={producto.nombre}
+              width={800}
+              height={800}
               className="product-detail-image"
             />
           )}
@@ -73,7 +78,7 @@ export default function ProductDetail({ producto, onAddToCart }) {
                     onClick={() => setSelectedColor(color)}
                     title={color.nombre}
                   >
-                    <img src={color.imagen} alt={color.nombre} />
+                    <Image src={color.imagen} alt={color.nombre} width={70} height={70} />
                   </button>
                 ))}
               </div>

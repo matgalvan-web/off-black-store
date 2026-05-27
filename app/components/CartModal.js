@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useContext } from 'react';
+import Image from 'next/image';
 import { AuthContext } from '../context/AuthContext';
 import { createOrder } from '../../lib/supabaseOperations';
 
@@ -69,7 +70,6 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
         email: user.email,
       };
 
-      // 1. Crear la orden en Supabase
       const orderResult = await createOrder(user.id, items, total, shipping);
       if (!orderResult.success) {
         setMessage('Error creando la orden: ' + orderResult.error);
@@ -79,7 +79,6 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
 
       const orderId = orderResult.order?.id || 'test';
 
-      // 2. Crear preferencia en MercadoPago y redirigir
       const mpRes = await fetch('/api/create-preference', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -106,7 +105,6 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
     <div className={`cart-overlay ${isClosing ? 'closing' : ''}`} onClick={handleClose}>
       <div className={`cart-modal ${isClosing ? 'closing' : ''}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Carrito de compras">
 
-        {/* ── PASO 1: CARRITO ── */}
         {step === 'cart' && (
           <>
             <div className="cart-header">
@@ -126,7 +124,7 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
                 <div className="cart-items">
                   {cart.map((item, index) => (
                     <div key={`${item.id}-${index}`} className="cart-item">
-                      <img src={item.imagen} alt={item.nombre} className="cart-item-image" />
+                      <Image src={item.imagen} alt={item.nombre} width={80} height={80} className="cart-item-image" />
                       <div className="cart-item-info">
                         <h3 className="cart-item-name">{item.nombre}</h3>
                         <p className="cart-item-price">${item.precio.toLocaleString('es-AR')}</p>
@@ -169,7 +167,6 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
           </>
         )}
 
-        {/* ── PASO 2: FORMULARIO DE ENVÍO ── */}
         {step === 'checkout' && (
           <>
             <div className="cart-header">

@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { getProducts } from '../../lib/supabaseOperations';
 
 export default function Productos({ searchTerm, onProductClick }) {
@@ -46,7 +47,7 @@ export default function Productos({ searchTerm, onProductClick }) {
             onClick={() => handleProductClick(producto.id)}
           >
             <div className="image-box">
-              <img src={producto.imagen} alt={producto.nombre} />
+              <Image src={producto.imagen} alt={producto.nombre} width={400} height={280} />
             </div>
             <div className="item-meta">
               <span>{producto.nombre}</span>

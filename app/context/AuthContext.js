@@ -21,7 +21,6 @@ export function AuthProvider({ children }) {
   const isValidPassword = (password) => passwordPattern.test(password);
   const isValidName = (name) => namePattern.test(name.trim());
 
-  // Check logged in user on mount
   useEffect(() => {
     const checkUser = async () => {
       try {
@@ -41,19 +40,16 @@ export function AuthProvider({ children }) {
 
   const register = async (email, password, name) => {
     try {
-      // Validate name
       if (!isValidName(name)) {
         setAuthMessage('El nombre debe tener entre 2 y 50 letras y espacios');
         return false;
       }
 
-      // Validate email
       if (!isValidEmail(email)) {
         setAuthMessage('Ingresa un email válido');
         return false;
       }
 
-      // Validate password
       if (!isValidPassword(password)) {
         setAuthMessage('La contraseña debe tener al menos 6 caracteres');
         return false;
@@ -88,13 +84,11 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      // Validate email
       if (!isValidEmail(email)) {
         setAuthMessage('Email no válido');
         return false;
       }
 
-      // Validate password format
       if (password.length < 6) {
         setAuthMessage('La contraseña debe tener al menos 6 caracteres');
         return false;

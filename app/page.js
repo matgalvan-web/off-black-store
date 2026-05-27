@@ -37,15 +37,6 @@ export default function Home() {
     addToCart(producto);
   };
 
-  const handleRemoveItem = (index) => {
-    setCart(prev => prev.filter((_, i) => i !== index));
-  };
-
-  const handleClearCart = () => {
-    setCart([]);
-    showToast('Carrito vaciado', 'success');
-  };
-
   const handleCartClick = () => {
     setIsCartOpen(true);
   };

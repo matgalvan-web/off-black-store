@@ -15,8 +15,8 @@ export async function POST(req) {
 
     const supabaseAdmin = createClient(supabaseUrl, serviceRole, { auth: { persistSession: false } });
 
-    const module = await import('../../../app/data/productos.js');
-    const productos = module.productos || [];
+    const imported = await import('../../../app/data/productos.js');
+    const productos = imported.productos || [];
     if (!Array.isArray(productos) || productos.length === 0) {
       return NextResponse.json({ success: false, error: 'No hay productos locales para sembrar' }, { status: 400 });
     }

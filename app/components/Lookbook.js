@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function Lookbook() {
   const router = useRouter();
@@ -10,13 +11,13 @@ export default function Lookbook() {
       imagen: '/Imagenes/hoodienegropng.webp',
       titulo: 'Atuendo nocturno',
       descripcion: 'Una composición moderna con silueta relajada y líneas sólidas.',
-      id: 'e19cff1b-65f2-4712-af1c-54ae63c6b600' // GUANTES DE INVIERNO
+      id: 8
     },
     {
       imagen: '/Imagenes/camperapuffer.png.webp',
       titulo: 'Textura y volumen',
       descripcion: 'La pieza técnica que define la temporada y agrega actitud a cada outfit.',
-      id: '62ad3e46-aa60-4ab0-a5b1-ec832d2d3cc1' // CAMPERA PUFFER
+      id: 24
     }
   ];
 
@@ -36,7 +37,7 @@ export default function Lookbook() {
             onClick={() => handleProductClick(look.id)}
             style={{ cursor: 'pointer' }}
           >
-            <img src={look.imagen} alt={look.titulo} />
+            <Image src={look.imagen} alt={look.titulo} width={800} height={400} />
             <div>
               <h3>{look.titulo}</h3>
               <p>{look.descripcion}</p>

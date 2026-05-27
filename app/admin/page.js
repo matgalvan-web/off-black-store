@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useContext } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { AuthContext } from '../context/AuthContext';
 import { productos } from '../data/productos';
@@ -32,7 +33,7 @@ export default function AdminPage() {
       return;
     }
     fetchOrders();
-  }, [isLoading, isAdmin]);
+  }, [isLoading, isAdmin, router]);
 
   const fetchOrders = async () => {
     setLoadingOrders(true);
@@ -205,7 +206,7 @@ export default function AdminPage() {
           <div className="admin-products-grid">
             {productos.map(p => (
               <div key={p.id} className="admin-product-card">
-                <img src={p.imagen} alt={p.nombre} className="admin-product-img" />
+                <Image src={p.imagen} alt={p.nombre} width={300} height={300} className="admin-product-img" />
                 <div className="admin-product-info">
                   <span className="admin-product-name">{p.nombre}</span>
                   <span className="admin-product-price">${p.precio.toLocaleString('es-AR')}</span>

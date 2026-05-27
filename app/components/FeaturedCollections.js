@@ -1,35 +1,35 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function FeaturedCollections() {
   const router = useRouter();
   
-  // IDs correctos que coinciden con productos reales
   const features = [
     {
-      id: 'e77c85fb-f264-4ea5-88c3-fc2735bb2622', // CAMPERA ROMPEVIENTOS
+      id: 1,
       imagen: '/Imagenes/camperanegra.png.webp',
       tag: 'STREET CORE',
       titulo: 'Campera nocturna',
       descripcion: 'Una pieza estructurada con presencia urbana y líneas bien definidas.'
     },
     {
-      id: 'f55fb962-9618-4f65-84e9-4b7b530c5488', // REMERAS
+      id: 21,
       imagen: '/Imagenes/remerasverdes.png.webp',
       tag: 'BASICS',
       titulo: 'Remeras esenciales',
       descripcion: 'Contraste suave, corte moderno y un bloque visual más contundente.'
     },
     {
-      id: 'd7cc6975-c7c7-4e3d-a92e-69d2aed7703c', // PANTALÓN
+      id: 17,
       imagen: '/Imagenes/pantalonblanco.png.webp',
       tag: 'CONTRASTE',
       titulo: 'Pantalón claro',
       descripcion: 'Minimalismo con actitud para balancear la nueva colección OFF-BLACK.'
     },
     {
-      id: 'da6fe60a-902d-4b0b-b3e7-67c426cc1adc', // MOCHILA
+      id: 11,
       imagen: '/Imagenes/bolsogrande.png.webp',
       tag: 'ACCESORIOS',
       titulo: 'Bolso grande',
@@ -53,7 +53,7 @@ export default function FeaturedCollections() {
             onClick={() => handleProductClick(item.id)}
             style={{ cursor: 'pointer' }}
           >
-            <img src={item.imagen} alt={item.titulo} />
+            <Image src={item.imagen} alt={item.titulo} width={600} height={280} />
             <div className="feature-copy">
               <span className="feature-tag">{item.tag}</span>
               <h3>{item.titulo}</h3>
