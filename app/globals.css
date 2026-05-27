@@ -20,12 +20,6 @@ body {
   overflow-x: hidden;
 }
 
-input,
-textarea,
-select {
-  text-transform: none !important;
-}
-
 /* Scrollbar estilo industrial */
 body::-webkit-scrollbar {
   width: 6px;
@@ -77,9 +71,8 @@ body::-webkit-scrollbar-thumb:hover {
 .auth-button {
   color: #a2a2a2;
   text-decoration: none;
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.78rem;
-  letter-spacing: 0.4px;
+  letter-spacing: 1px;
   position: relative;
   padding: 0 10px 4px;
   line-height: 1.2;
@@ -191,10 +184,10 @@ body::-webkit-scrollbar-thumb:hover {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.1);
   color: #ffffff;
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 0.82rem;
-  text-transform: none;
-  letter-spacing: 0.5px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   outline: none;
   transition: all 0.22s ease;
 }
@@ -1064,10 +1057,6 @@ body::-webkit-scrollbar-thumb:hover {
   margin-bottom: 40px;
 }
 
-.size-selection {
-  margin-bottom: 40px;
-}
-
 .color-label {
   font-size: 0.9rem;
   color: #888;
@@ -1075,16 +1064,6 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .color-label strong {
-  color: #fff;
-}
-
-.size-label {
-  font-size: 0.9rem;
-  color: #888;
-  margin-bottom: 16px;
-}
-
-.size-label strong {
   color: #fff;
 }
 
@@ -1235,7 +1214,6 @@ body::-webkit-scrollbar-thumb:hover {
 
   .auth-button,
   .cart-link {
-    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
     font-size: 0.65rem;
     padding: 6px 8px;
     letter-spacing: 0.5px;
@@ -1505,7 +1483,7 @@ body::-webkit-scrollbar-thumb:hover {
   font-family: 'Space Mono', monospace;
   font-size: 0.8rem;
   letter-spacing: 1px;
-  text-transform: none;
+  text-transform: uppercase;
   outline: none;
   transition: all 0.22s ease;
 }

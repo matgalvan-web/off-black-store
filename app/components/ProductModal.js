@@ -7,20 +7,41 @@ export default function ProductModal({ productId, onClose, onAddToCart }) {
   const [producto, setProducto] = useState(null);
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     let mounted = true;
     if (!productId) return;
-    getProductById(productId).then(res => {
-      if (!mounted) return;
-      if (res.success) {
-        setProducto(res.product);
-        setSelectedColor(res.product?.colores?.[0]?.nombre || '');
-        setSelectedSize(res.product?.talles?.[0] || '');
-      }
-    });
+
+    getProductById(productId)
+      .then((res) => {
+        if (!mounted) return;
+        if (res.success && res.product) {
+          setProducto(res.product);
+          setSelectedColor(res.product?.colores?.[0]?.nombre || '');
+          setSelectedSize(res.product?.talles?.[0] || '');
+        } else {
+          setError(res.error || 'No se pudo cargar el producto.');
+        }
+      })
+      .catch((err) => {
+        if (!mounted) return;
+        setError(err?.message || 'Error al cargar el producto.');
+      });
+
     return () => { mounted = false; };
   }, [productId]);
+
+  if (error) {
+    return (
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <button className="modal-close" onClick={onClose}>&times;</button>
+          <div className="modal-error">{error}</div>
+        </div>
+      </div>
+    );
+  }
 
   if (!producto) return null;
 

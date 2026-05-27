@@ -1,9 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { createOrder } from '../../lib/supabaseOperations';
 
 export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClearCart }) {
   const [isClosing, setIsClosing] = useState(false);
+  const { user, setIsLoginOpen, setAuthMessage } = useContext(AuthContext);
+  const [shippingName, setShippingName] = useState('');
+  const [shippingAddress, setShippingAddress] = useState('');
+  const [shippingPhone, setShippingPhone] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   if (!isOpen) return null;
 
@@ -15,6 +23,55 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
       setIsClosing(false);
       onClose();
     }, 300);
+  };
+
+  const handleCheckout = async () => {
+    if (!user) {
+      setAuthMessage('Necesitás iniciar sesión para crear una orden');
+      setIsLoginOpen(true);
+      return;
+    }
+
+    if (!shippingAddress || !shippingName) {
+      setMessage('Completa nombre y dirección de envío');
+      return;
+    }
+
+    setLoading(true);
+    setMessage('');
+
+    try {
+      const items = cart.map((it) => ({
+        product_id: it.id,
+        nombre: it.nombre,
+        precio: it.precio,
+        cantidad: it.cantidad,
+        color: it.colorSeleccionado || null,
+        size: it.talleSeleccionado || null,
+      }));
+
+      const shipping = {
+        name: shippingName,
+        address: shippingAddress,
+        phone: shippingPhone,
+        email: user.email,
+      };
+
+      const result = await createOrder(user.id, items, total, shipping);
+
+      if (!result.success) {
+        setMessage('Error creando la orden: ' + result.error);
+        setLoading(false);
+        return;
+      }
+
+      setMessage('Orden creada correctamente. ID: ' + (result.order?.id || 'n/a'));
+      onClearCart();
+      setLoading(false);
+    } catch (error) {
+      setMessage('Error creando la orden');
+      setLoading(false);
+    }
   };
 
   return (
@@ -66,10 +123,37 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
                 <span>TOTAL</span>
                 <span className="cart-total-price">${total.toLocaleString('es-AR')}</span>
               </div>
-              <button className="cart-checkout-btn">FINALIZAR COMPRA</button>
+
+              <div className="shipping-form">
+                <input
+                  type="text"
+                  placeholder="Nombre completo"
+                  value={shippingName}
+                  onChange={(e) => setShippingName(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Dirección de envío"
+                  value={shippingAddress}
+                  onChange={(e) => setShippingAddress(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Teléfono (opcional)"
+                  value={shippingPhone}
+                  onChange={(e) => setShippingPhone(e.target.value)}
+                />
+              </div>
+
+              <button className="cart-checkout-btn" onClick={handleCheckout} disabled={loading}>
+                {loading ? 'Creando orden...' : 'FINALIZAR COMPRA (sin pago)'}
+              </button>
+
               <button className="cart-clear-btn" onClick={onClearCart}>
                 VACIAR CARRITO
               </button>
+
+              {message && <div className="cart-message">{message}</div>}
             </div>
           </>
         )}

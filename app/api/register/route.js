@@ -1,30 +1,42 @@
-const supabaseUrl = (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '').trim();
-const supabaseServiceRoleKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE || '').trim();
+function getSupabaseConfig() {
+  const supabaseUrl = (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '').trim();
+  const supabaseServiceRoleKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE || '').trim();
 
-if (!supabaseUrl || !supabaseServiceRoleKey) {
-  throw new Error('Missing Supabase URL or service role key in environment variables');
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    return { error: 'Missing Supabase URL or service role key in environment variables' };
+  }
+
+  let origin;
+  try {
+    origin = new URL(supabaseUrl).origin;
+  } catch (error) {
+    return { error: 'Invalid Supabase URL in environment variables' };
+  }
+
+  const authHeaders = {
+    'Content-Type': 'application/json',
+    apikey: supabaseServiceRoleKey,
+    Authorization: `Bearer ${supabaseServiceRoleKey}`,
+  };
+
+  return {
+    adminUserUrl: origin + '/auth/v1/admin/users',
+    adminDbUrl: origin + '/rest/v1/users',
+    authHeaders,
+  };
 }
-
-let adminUserUrl;
-let adminDbUrl;
-
-try {
-  // Use only the origin (protocol + host) to avoid duplicating paths
-  const origin = new URL(supabaseUrl).origin;
-  adminUserUrl = origin + '/auth/v1/admin/users';
-  adminDbUrl = origin + '/rest/v1/users';
-} catch (error) {
-  throw new Error('Invalid Supabase URL in environment variables');
-}
-
-const authHeaders = {
-  'Content-Type': 'application/json',
-  apikey: supabaseServiceRoleKey,
-  Authorization: `Bearer ${supabaseServiceRoleKey}`,
-};
 
 export async function POST(request) {
   try {
+    const config = getSupabaseConfig();
+    if (config.error) {
+      return new Response(JSON.stringify({ error: config.error }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const { adminUserUrl, adminDbUrl, authHeaders } = config;
     const { name, email, password } = await request.json();
 
     if (!name || !email || !password) {
