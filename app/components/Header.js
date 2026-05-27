@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useContext } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import { AuthContext } from '../context/AuthContext';
 
@@ -11,17 +10,11 @@ export default function Header({ cartCount, onCartClick, searchTerm, onSearchCha
 
   return (
     <header className="main-header">
-      <Link href="/" className="brand-logo-link">
+      <a href="/" className="brand-logo-link">
         <Image src="/Imagenes/off-black.jpg" alt="Logo OFF-BLACK" width={50} height={50} className="brand-logo" />
-      </Link>
+      </a>
       <h1 className="brand-name">OFF-BLACK</h1>
       <nav className="sub-nav">
-        <div className="nav-links">
-          <Link href="/historia" className="historia-link" title="Historia de la marca">
-            <span className="button-text-desktop">HISTORIA</span>
-            <span className="button-text-mobile">HIST.</span>
-          </Link>
-        </div>
         <div className="search-container">
           <input
             type="text"
