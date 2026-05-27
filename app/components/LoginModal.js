@@ -36,8 +36,8 @@ export default function LoginModal() {
   return (
     <>
       <div className="modal-overlay" onClick={() => setIsLoginOpen(false)}>
-        <div className="modal-content login-modal" onClick={(e) => e.stopPropagation()}>
-          <button className="modal-close" onClick={() => setIsLoginOpen(false)}>×</button>
+        <div className="modal-content login-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Iniciar sesión">
+          <button className="modal-close" onClick={() => setIsLoginOpen(false)} aria-label="Cerrar">×</button>
           
           <h2 className="modal-title">INICIAR SESIÓN</h2>
           
@@ -56,6 +56,7 @@ export default function LoginModal() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isLoading}
+                aria-label="Email"
               />
             </div>
             
@@ -67,6 +68,7 @@ export default function LoginModal() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={isLoading}
+                aria-label="Contraseña"
               />
             </div>
             

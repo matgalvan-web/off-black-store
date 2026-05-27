@@ -22,12 +22,13 @@ export default function Header({ cartCount, onCartClick, searchTerm, onSearchCha
           </Link>
         </div>
         <div className="search-container">
-          <input 
-            type="text" 
-            placeholder="BUSCAR..." 
+          <input
+            type="text"
+            placeholder="BUSCAR..."
             className="search-input"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
+            aria-label="Buscar productos"
           />
         </div>
         <div className="nav-actions">

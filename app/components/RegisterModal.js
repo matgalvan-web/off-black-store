@@ -45,8 +45,8 @@ export default function RegisterModal() {
   return (
     <>
       <div className="modal-overlay" onClick={() => setIsRegisterOpen(false)}>
-        <div className="modal-content register-modal" onClick={(e) => e.stopPropagation()}>
-          <button className="modal-close" onClick={() => setIsRegisterOpen(false)}>×</button>
+        <div className="modal-content register-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Registrarse">
+          <button className="modal-close" onClick={() => setIsRegisterOpen(false)} aria-label="Cerrar">×</button>
           
           <h2 className="modal-title">REGISTRARSE</h2>
           
@@ -65,6 +65,7 @@ export default function RegisterModal() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 disabled={isLoading}
+                aria-label="Nombre"
               />
             </div>
             
@@ -76,6 +77,7 @@ export default function RegisterModal() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isLoading}
+                aria-label="Email"
               />
             </div>
             
@@ -87,6 +89,7 @@ export default function RegisterModal() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={isLoading}
+                aria-label="Contraseña"
               />
             </div>
             
@@ -98,6 +101,7 @@ export default function RegisterModal() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 disabled={isLoading}
+                aria-label="Confirmar contraseña"
               />
             </div>
             

@@ -35,8 +35,8 @@ export default function ProductModal({ productId, onClose, onAddToCart }) {
   if (error) {
     return (
       <div className="modal-overlay" onClick={onClose}>
-        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-          <button className="modal-close" onClick={onClose}>&times;</button>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Error de producto">
+          <button className="modal-close" onClick={onClose} aria-label="Cerrar">&times;</button>
           <div className="modal-error">{error}</div>
         </div>
       </div>
@@ -57,8 +57,8 @@ export default function ProductModal({ productId, onClose, onAddToCart }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>&times;</button>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label={producto.nombre}>
+        <button className="modal-close" onClick={onClose} aria-label="Cerrar">&times;</button>
         <h2 className="modal-name">{producto.nombre}</h2>
         <p className="modal-price">${producto.precio.toLocaleString('es-AR')}</p>
         

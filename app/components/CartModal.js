@@ -104,14 +104,14 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
 
   return (
     <div className={`cart-overlay ${isClosing ? 'closing' : ''}`} onClick={handleClose}>
-      <div className={`cart-modal ${isClosing ? 'closing' : ''}`} onClick={(e) => e.stopPropagation()}>
+      <div className={`cart-modal ${isClosing ? 'closing' : ''}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Carrito de compras">
 
         {/* ── PASO 1: CARRITO ── */}
         {step === 'cart' && (
           <>
             <div className="cart-header">
               <h2 className="cart-title">TU CARRITO</h2>
-              <button className="cart-close" onClick={handleClose}>&times;</button>
+              <button className="cart-close" onClick={handleClose} aria-label="Cerrar carrito">&times;</button>
             </div>
 
             {cart.length === 0 ? (
@@ -143,6 +143,7 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
                       <button
                         className="cart-item-remove"
                         onClick={() => onRemoveItem(index)}
+                        aria-label={`Eliminar ${item.nombre} del carrito`}
                       >
                         &times;
                       </button>
@@ -174,7 +175,7 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
             <div className="cart-header">
               <button className="cart-back-btn" onClick={handleBackToCart}>← Volver</button>
               <h2 className="cart-title">DATOS DE ENVÍO</h2>
-              <button className="cart-close" onClick={handleClose}>&times;</button>
+              <button className="cart-close" onClick={handleClose} aria-label="Cerrar carrito">&times;</button>
             </div>
 
             <div className="checkout-form-container">
