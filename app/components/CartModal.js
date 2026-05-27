@@ -69,20 +69,35 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
         email: user.email,
       };
 
-      const result = await createOrder(user.id, items, total, shipping);
-
-      if (!result.success) {
-        setMessage('Error creando la orden: ' + result.error);
+      // 1. Crear la orden en Supabase
+      const orderResult = await createOrder(user.id, items, total, shipping);
+      if (!orderResult.success) {
+        setMessage('Error creando la orden: ' + orderResult.error);
         setLoading(false);
         return;
       }
 
-      setMessage('✓ Orden creada. ID: ' + (result.order?.id || 'n/a'));
+      const orderId = orderResult.order?.id || 'test';
+
+      // 2. Crear preferencia en MercadoPago y redirigir
+      const mpRes = await fetch('/api/create-preference', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items, orderId, shippingInfo: shipping }),
+      });
+
+      const mpData = await mpRes.json();
+
+      if (!mpRes.ok || !mpData.init_point) {
+        setMessage('Error al iniciar el pago: ' + (mpData.error || 'inténtalo de nuevo'));
+        setLoading(false);
+        return;
+      }
+
       onClearCart();
-      setLoading(false);
-      setStep('cart');
+      window.location.href = mpData.init_point;
     } catch (error) {
-      setMessage('Error creando la orden');
+      setMessage('Error al procesar: ' + error.message);
       setLoading(false);
     }
   };
