@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { userId, items, total, shippingAddress } = body || {};
+    const { userId, items, total, shippingAddress, metodoPago } = body || {};
 
     if (!userId || !items) {
       return NextResponse.json({ success: false, error: 'Faltan campos obligatorios (userId/items)' }, { status: 400 });
@@ -14,7 +14,7 @@ export async function POST(req) {
     const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY;
 
     if (!rawUrl || !serviceRole) {
-      return NextResponse.json({ success: false, error: 'Configuración del servidor incompleta. Falta SUPABASE_SERVICE_ROLE_KEY o SUPABASE_URL' }, { status: 500 });
+      return NextResponse.json({ success: false, error: 'Configuración del servidor incompleta.' }, { status: 500 });
     }
 
     let supabaseUrl;
@@ -26,22 +26,28 @@ export async function POST(req) {
 
     const supabaseAdmin = createClient(supabaseUrl, serviceRole, { auth: { persistSession: false } });
 
-    const insertPayload = {
-      user_id: userId,
-      items,
-      total: total || 0,
-      shipping_address: shippingAddress || null,
-      status: 'pending',
-      created_at: new Date().toISOString()
-    };
+    // Los productos son locales (no están en Supabase), así que insertamos la orden directamente
+    // sin pasar por el stored procedure que requiere UUIDs de productos
+    const { data, error } = await supabaseAdmin
+      .from('orders')
+      .insert([{
+        user_id: userId,
+        items,
+        total: total || 0,
+        shipping_address: shippingAddress || null,
+        status: 'pending',
+        metodo_pago: metodoPago || null,
+      }])
+      .select()
+      .single();
 
-    const { data, error } = await supabaseAdmin.from('orders').insert([insertPayload]).select();
-    if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    if (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
 
-    // Clear cart items for user (server-side) — optional but convenient
     await supabaseAdmin.from('cart_items').delete().eq('user_id', userId);
 
-    return NextResponse.json({ success: true, order: data?.[0] ?? null });
+    return NextResponse.json({ success: true, order: data });
   } catch (err) {
     return NextResponse.json({ success: false, error: err?.message || String(err) }, { status: 500 });
   }

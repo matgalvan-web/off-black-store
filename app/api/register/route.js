@@ -95,6 +95,7 @@ export async function POST(request) {
           id: userId,
           name,
           email,
+          rol: 'cliente',
           created_at: new Date().toISOString(),
         },
       ]),
