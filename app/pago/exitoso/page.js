@@ -1,13 +1,22 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import { Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { Suspense, useEffect } from 'react';
 
 function ExitosoContent() {
   const params = useSearchParams();
   const router = useRouter();
-  const orderId = params.get('order_id');
+  const orderId = params.get('order_id') || params.get('external_reference');
+  const paymentId = params.get('payment_id');
+
+  useEffect(() => {
+    if (!paymentId || !orderId) return;
+    fetch('/api/pagos/confirmar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ paymentId, orderId }),
+    });
+  }, [paymentId, orderId]);
 
   return (
     <div className="pago-result">
