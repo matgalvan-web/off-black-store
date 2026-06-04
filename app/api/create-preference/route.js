@@ -1,13 +1,9 @@
-import { MercadoPagoConfig, Preference } from 'mercadopago';
+import { client, Preference } from '../../../lib/mercadopago';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
   try {
     const { items, orderId, shippingInfo } = await req.json();
-
-    const client = new MercadoPagoConfig({
-      accessToken: process.env.MP_ACCESS_TOKEN,
-    });
 
     const preference = new Preference(client);
 

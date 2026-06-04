@@ -95,6 +95,10 @@ ALTER TABLE orders ADD COLUMN IF NOT EXISTS metodo_pago VARCHAR(100);
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS referencia_pago VARCHAR(255);
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS pagado_en TIMESTAMP;
 
+-- 3b. Campos de Mercado Pago
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS mp_payment_id VARCHAR(255);
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS mp_status VARCHAR(100);
+
 -- Convertir status de VARCHAR a ENUM
 ALTER TABLE orders ALTER COLUMN status DROP DEFAULT;
 ALTER TABLE orders ALTER COLUMN status TYPE estado_orden USING status::estado_orden;
