@@ -19,7 +19,6 @@ export default function CartModal({ isOpen, onClose, cart, onRemoveItem, onClear
     setIsClosing(true);
     setTimeout(() => {
       setIsClosing(false);
-      setStep('cart');
       setMessage('');
       onClose();
     }, 300);
