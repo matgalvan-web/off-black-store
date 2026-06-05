@@ -1,15 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+function getAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
+    { auth: { persistSession: false } }
+  );
+}
 
 export async function PATCH(request, { params }) {
   const { id } = params;
   const { status } = await request.json();
 
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await getAdmin()
     .from('orders')
     .update({ status })
     .eq('id', id)
@@ -22,7 +25,7 @@ export async function PATCH(request, { params }) {
 export async function DELETE(request, { params }) {
   const { id } = params;
 
-  const { error } = await supabaseAdmin
+  const { error } = await getAdmin()
     .from('orders')
     .delete()
     .eq('id', id);
