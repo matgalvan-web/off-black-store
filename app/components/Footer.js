@@ -6,31 +6,31 @@ export default function Footer() {
       <div className="footer-content">
         <div className="footer-section">
           <h4>TIENDA</h4>
-          <Link href="#">Todos los productos</Link>
-          <Link href="#">Nuevos ingresos</Link>
-          <Link href="#">Sale</Link>
+          <Link href="/#productos">Todos los productos</Link>
+          <Link href="/#productos">Nuevos ingresos</Link>
+          <Link href="/#productos">Sale</Link>
         </div>
         <div className="footer-section">
           <h4>AYUDA</h4>
-          <Link href="#">Envíos</Link>
-          <Link href="#">Cambios y devoluciones</Link>
-          <Link href="#">Preguntas frecuentes</Link>
+          <Link href="/historia">Envíos</Link>
+          <Link href="/historia">Cambios y devoluciones</Link>
+          <Link href="/historia">Preguntas frecuentes</Link>
         </div>
         <div className="footer-section">
           <h4>OFF-BLACK</h4>
-          <Link href="/historia" className="footer-historia-link">Nuestra historia</Link>
-          <Link href="#">Locales</Link>
-          <Link href="#">Contacto</Link>
+          <Link href="/historia">Nuestra historia</Link>
+          <Link href="/historia">Locales</Link>
+          <Link href="/historia">Contacto</Link>
         </div>
         <div className="footer-section">
           <h4>SEGUINOS</h4>
-          <Link href="#">Instagram</Link>
-          <Link href="#">TikTok</Link>
-          <Link href="#">Facebook</Link>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer">TikTok</a>
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
         </div>
       </div>
       <div className="footer-bottom">
-        <p>© 2024 OFF-BLACK. Todos los derechos reservados.</p>
+        <p>© 2025 OFF-BLACK. Todos los derechos reservados.</p>
       </div>
     </footer>
   );

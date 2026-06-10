@@ -1,12 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { getProducts } from '../../lib/supabaseOperations';
 
-export default function Productos({ searchTerm, onProductClick }) {
-  const router = useRouter();
+export default function Productos({ searchTerm }) {
   const [productos, setProductos] = useState([]);
   const busqueda = searchTerm.toLowerCase().trim();
 
@@ -20,10 +19,6 @@ export default function Productos({ searchTerm, onProductClick }) {
   }, []);
 
   const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(busqueda));
-
-  const handleProductClick = (id) => {
-    router.push(`/producto/${id}`);
-  };
 
   if (filtrados.length === 0 && busqueda !== '') {
     return (
@@ -41,10 +36,11 @@ export default function Productos({ searchTerm, onProductClick }) {
       <div className="section-title">NUESTROS PRODUCTOS</div>
       <div className="productos-grid">
         {filtrados.map((producto) => (
-          <div 
-            key={producto.id} 
+          <Link
+            key={producto.id}
+            href={`/producto/${producto.id}`}
             className="producto-item"
-            onClick={() => handleProductClick(producto.id)}
+            aria-label={`Ver ${producto.nombre} - $${producto.precio.toLocaleString('es-AR')}`}
           >
             <div className="image-box">
               <Image src={producto.imagen} alt={producto.nombre} width={400} height={280} />
@@ -53,7 +49,7 @@ export default function Productos({ searchTerm, onProductClick }) {
               <span>{producto.nombre}</span>
               <span>${producto.precio.toLocaleString('es-AR')}</span>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

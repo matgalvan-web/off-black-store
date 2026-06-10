@@ -82,14 +82,31 @@ off-black-store/
 └── .env.example                # Plantilla de variables de entorno
 ```
 
+## Funcionalidades
+
+- Catálogo de productos con búsqueda en tiempo real
+- Carrito de compras persistente (localStorage)
+- Autenticación de usuarios (registro e inicio de sesión)
+- Selección de color y talle por producto
+- Checkout con datos de envío
+- Integración completa con MercadoPago (sandbox y producción)
+- Páginas de resultado de pago (exitoso, fallido, pendiente)
+- Panel de administración con gestión de órdenes
+- Roles de usuario (cliente / admin) con Row Level Security en Supabase
+- Webhook para actualización automática del estado de órdenes
+
 ## API Endpoints
 
 | Método | Ruta | Descripción |
 |--------|------|-------------|
 | POST | `/api/register` | Registra un nuevo usuario en Supabase Auth y crea su perfil |
-| POST | `/api/create-order` | Crea una orden con los ítems del carrito y limpia el carrito |
+| POST | `/api/create-order` | Crea una orden con los ítems del carrito |
 | POST | `/api/create-preference` | Genera una preferencia de pago en MercadoPago |
-| POST | `/api/seed-products` | Carga los productos locales en la base de datos |
+| POST | `/api/pagos/confirmar` | Confirma el pago con MercadoPago y actualiza la orden |
+| POST | `/api/pagos/webhook` | Webhook para notificaciones de MercadoPago |
+| GET | `/api/admin/orders` | Lista todas las órdenes (solo admin) |
+| PATCH | `/api/admin/orders/[id]` | Actualiza el estado de una orden (solo admin) |
+| DELETE | `/api/admin/orders/[id]` | Elimina una orden (solo admin) |
 
 ## Flujo de pago
 
@@ -97,7 +114,10 @@ off-black-store/
 2. En el checkout ingresa nombre, dirección y teléfono
 3. Se crea la orden en Supabase con estado `pending`
 4. Se genera una preferencia en MercadoPago y se redirige al usuario
-5. MercadoPago redirige a `/pago/exitoso`, `/pago/fallido` o `/pago/pendiente`
+5. El usuario completa el pago en el checkout seguro de MercadoPago
+6. MercadoPago redirige a `/pago/exitoso`, `/pago/fallido` o `/pago/pendiente`
+7. La página de éxito llama a `/api/pagos/confirmar` para actualizar el estado de la orden a `paid`
+8. MercadoPago también notifica al webhook `/api/pagos/webhook` como confirmación adicional
 
 ## Deploy en Vercel
 

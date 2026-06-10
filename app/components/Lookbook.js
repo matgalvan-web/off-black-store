@@ -31,10 +31,14 @@ export default function Lookbook() {
       <div className="section-title">Más imágenes rectangulares para inspirarte</div>
       <div className="lookbook-grid">
         {looks.map((look, index) => (
-          <article 
-            key={index} 
+          <article
+            key={index}
             className="lookbook-card"
             onClick={() => handleProductClick(look.id)}
+            onKeyDown={(e) => e.key === 'Enter' && handleProductClick(look.id)}
+            role="button"
+            tabIndex={0}
+            aria-label={`Ver look: ${look.titulo}`}
             style={{ cursor: 'pointer' }}
           >
             <Image src={look.imagen} alt={look.titulo} width={800} height={400} />

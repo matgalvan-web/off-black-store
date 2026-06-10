@@ -47,10 +47,14 @@ export default function FeaturedCollections() {
       <div className="section-title">Imágenes rectangulares para darle energía a OFF-BLACK</div>
       <div className="feature-grid">
         {features.map((item) => (
-          <article 
-            key={item.id} 
+          <article
+            key={item.id}
             className="feature-card"
             onClick={() => handleProductClick(item.id)}
+            onKeyDown={(e) => e.key === 'Enter' && handleProductClick(item.id)}
+            role="button"
+            tabIndex={0}
+            aria-label={`Ver producto: ${item.titulo}`}
             style={{ cursor: 'pointer' }}
           >
             <Image src={item.imagen} alt={item.titulo} width={600} height={280} />

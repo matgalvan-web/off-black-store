@@ -28,10 +28,11 @@ export default function Header({ cartCount, onCartClick, searchTerm, onSearchCha
         <div className="nav-actions">
           {user ? (
             <div className="user-menu">
-              <button 
+              <button
                 className="user-button"
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                title={`Hola ${user.name}`}
+                aria-label={`Menú de usuario: ${user.name}`}
+                aria-expanded={showUserMenu}
               >
                 <span className="button-text-desktop">HOLA, {user.name.toUpperCase()}</span>
                 <span className="button-text-mobile">{user.name.split(' ')[0].toUpperCase()}</span>
@@ -62,11 +63,11 @@ export default function Header({ cartCount, onCartClick, searchTerm, onSearchCha
               </button>
             </>
           )}
-          <a href="#" className="cart-link" onClick={(e) => { e.preventDefault(); onCartClick(); }} title="Carrito">
+          <button className="cart-link" onClick={onCartClick} aria-label={`Carrito, ${cartCount} productos`}>
             <span className="button-text-desktop">CART</span>
             <span className="button-text-mobile">C</span>
-            (<span id="cart-count">{cartCount}</span>)
-          </a>
+            (<span>{cartCount}</span>)
+          </button>
         </div>
       </nav>
     </header>
