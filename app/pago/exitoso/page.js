@@ -10,6 +10,7 @@ function ExitosoContent() {
   const { clearCart } = useContext(CartContext);
   const orderId = params.get('order_id') || params.get('external_reference');
   const paymentId = params.get('payment_id');
+  const mpStatus = params.get('status');
 
   useEffect(() => {
     clearCart();
@@ -17,7 +18,7 @@ function ExitosoContent() {
     fetch('/api/pagos/confirmar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ paymentId, orderId }),
+      body: JSON.stringify({ paymentId, orderId, mpStatus }),
     });
   }, [paymentId, orderId]);// eslint-disable-line react-hooks/exhaustive-deps
 

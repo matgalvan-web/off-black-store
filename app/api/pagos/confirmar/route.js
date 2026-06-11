@@ -13,16 +13,25 @@ const MP_STATUS_MAP = {
 
 export async function POST(req) {
   try {
-    const { paymentId, orderId } = await req.json();
+    const { paymentId, orderId, mpStatus } = await req.json();
 
     if (!paymentId || !orderId) {
       return NextResponse.json({ error: 'Faltan parámetros' }, { status: 400 });
     }
 
-    const paymentApi = new Payment(client);
-    const payment = await paymentApi.get({ id: paymentId });
+    let newStatus = 'pending';
+    try {
+      const paymentApi = new Payment(client);
+      const payment = await paymentApi.get({ id: paymentId });
+      newStatus = MP_STATUS_MAP[payment.status] ?? 'pending';
+    } catch {
+      // Si la API falla, usar el status que MP mandó en la URL de redirección
+    }
 
-    const newStatus = MP_STATUS_MAP[payment.status] ?? 'pending';
+    // Si la API devolvió pending pero MP ya redirigió a éxito con approved, confiar en ese
+    if (newStatus === 'pending' && mpStatus === 'approved') {
+      newStatus = 'paid';
+    }
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
