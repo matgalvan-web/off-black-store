@@ -33,6 +33,8 @@ export default function AdminPage() {
       return;
     }
     fetchOrders();
+    const interval = setInterval(fetchOrders, 30000);
+    return () => clearInterval(interval);
   }, [isLoading, isAdmin, router]);
 
   const fetchOrders = async () => {
@@ -91,7 +93,12 @@ export default function AdminPage() {
     <main className="admin-page">
       <div className="admin-header">
         <h1 className="admin-title">ADMIN PANEL</h1>
-        <span className="admin-user-badge">{user.email}</span>
+        <div className="admin-header-right">
+          <button className="admin-refresh-btn" onClick={fetchOrders} disabled={loadingOrders}>
+            {loadingOrders ? 'Actualizando...' : '↻ Actualizar'}
+          </button>
+          <span className="admin-user-badge">{user.email}</span>
+        </div>
       </div>
 
       <div className="admin-stats">

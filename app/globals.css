@@ -2038,11 +2038,37 @@ body::-webkit-scrollbar-thumb:hover {
   color: #fff;
 }
 
+.admin-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .admin-user-badge {
   font-family: 'Space Mono', monospace;
   font-size: 0.75rem;
   color: #666;
   letter-spacing: 1px;
+}
+
+.admin-refresh-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  color: #aaa;
+  border: 1px solid #333;
+  padding: 6px 14px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.admin-refresh-btn:hover:not(:disabled) {
+  color: #fff;
+  border-color: #666;
+}
+
+.admin-refresh-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 .admin-stats {
