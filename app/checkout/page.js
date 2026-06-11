@@ -13,9 +13,24 @@ export default function CheckoutPage() {
   const [shippingName, setShippingName] = useState('');
   const [shippingAddress, setShippingAddress] = useState('');
   const [shippingPhone, setShippingPhone] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const [metodoPago, setMetodoPago] = useState('mercadopago');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+
+  const validatePhone = (value) => {
+    if (!value) return '';
+    const digits = value.replace(/[\s\-().+]/g, '');
+    if (!/^\d+$/.test(digits)) return 'Solo se permiten números, espacios, guiones y paréntesis';
+    if (digits.length < 7) return 'El número es demasiado corto (mínimo 7 dígitos)';
+    if (digits.length > 15) return 'El número es demasiado largo (máximo 15 dígitos)';
+    return '';
+  };
+
+  const handlePhoneChange = (value) => {
+    setShippingPhone(value);
+    setPhoneError(validatePhone(value));
+  };
 
   const total = cart.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
 
@@ -48,6 +63,11 @@ export default function CheckoutPage() {
   const handleCheckout = async () => {
     if (!shippingName || !shippingAddress) {
       setMessage('Completá nombre y dirección de envío');
+      return;
+    }
+    const phoneValidation = validatePhone(shippingPhone);
+    if (phoneValidation) {
+      setPhoneError(phoneValidation);
       return;
     }
 
@@ -175,12 +195,13 @@ export default function CheckoutPage() {
 
               <label className="checkout-label">Teléfono (opcional)</label>
               <input
-                className="checkout-input"
-                type="text"
+                className={`checkout-input${phoneError ? ' checkout-input-error' : ''}`}
+                type="tel"
                 placeholder="Ej: 11 1234-5678"
                 value={shippingPhone}
-                onChange={(e) => setShippingPhone(e.target.value)}
+                onChange={(e) => handlePhoneChange(e.target.value)}
               />
+              {phoneError && <span className="checkout-field-error">{phoneError}</span>}
 
               <label className="checkout-label">Método de pago *</label>
               <select

@@ -1887,6 +1887,19 @@ body::-webkit-scrollbar-thumb:hover {
   color: #555;
 }
 
+.checkout-input-error {
+  border-color: #e53e3e !important;
+}
+
+.checkout-field-error {
+  display: block;
+  color: #e53e3e;
+  font-size: 0.72rem;
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+  text-transform: none;
+}
+
 .cart-message {
   font-size: 0.75rem;
   letter-spacing: 1px;
