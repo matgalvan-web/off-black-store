@@ -37,7 +37,7 @@ export async function POST(req) {
       },
     });
 
-    return NextResponse.json({ init_point: result.sandbox_init_point });
+    return NextResponse.json({ init_point: result.init_point });
   } catch (error) {
     console.error('MercadoPago error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
