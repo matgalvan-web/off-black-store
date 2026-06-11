@@ -81,7 +81,8 @@ body::-webkit-scrollbar-thumb:hover {
   align-items: center;
 }
 
-.auth-button {
+.auth-button,
+.cart-link {
   border: none;
   background: transparent;
   cursor: pointer;
@@ -433,6 +434,9 @@ body::-webkit-scrollbar-thumb:hover {
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
+  color: inherit;
+  text-decoration: none;
+  display: block;
 }
 
 .producto-item:hover {
