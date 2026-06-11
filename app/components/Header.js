@@ -1,12 +1,23 @@
 'use client';
 
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { AuthContext } from '../context/AuthContext';
 
 export default function Header({ cartCount, onCartClick, searchTerm, onSearchChange }) {
   const { user, setIsLoginOpen, setIsRegisterOpen, logout } = useContext(AuthContext);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setShowUserMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <header className="main-header">
@@ -27,7 +38,7 @@ export default function Header({ cartCount, onCartClick, searchTerm, onSearchCha
         </div>
         <div className="nav-actions">
           {user ? (
-            <div className="user-menu">
+            <div className="user-menu" ref={menuRef}>
               <button
                 className="user-button"
                 onClick={() => setShowUserMenu(!showUserMenu)}
