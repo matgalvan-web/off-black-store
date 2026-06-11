@@ -126,7 +126,6 @@ export default function CheckoutPage() {
           return;
         }
 
-        clearCart();
         window.location.href = mpData.init_point;
       } else {
         clearCart();

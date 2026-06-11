@@ -1987,6 +1987,24 @@ body::-webkit-scrollbar-thumb:hover {
   background: #e0e0e0;
 }
 
+.pago-result-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.pago-result-btn-secondary {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  margin-top: 0;
+}
+
+.pago-result-btn-secondary:hover {
+  background: rgba(255,255,255,0.08);
+}
+
 /* ============ ADMIN PANEL ============ */
 .admin-auth-wall {
   min-height: 60vh;
