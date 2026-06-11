@@ -33,10 +33,10 @@ export default function AdminPage() {
       return;
     }
     fetchOrders();
-    const interval = setInterval(fetchOrders, 15000);
+    const interval = setInterval(() => fetchOrders(true), 15000);
 
     const onVisible = () => {
-      if (document.visibilityState === 'visible') fetchOrders();
+      if (document.visibilityState === 'visible') fetchOrders(true);
     };
     document.addEventListener('visibilitychange', onVisible);
 
@@ -46,17 +46,18 @@ export default function AdminPage() {
     };
   }, [isLoading, isAdmin, router]);
 
-  const fetchOrders = async () => {
-    setLoadingOrders(true);
+  const fetchOrders = async (silent = false) => {
+    if (!silent) setLoadingOrders(true);
     try {
       const res = await fetch('/api/admin/orders', { cache: 'no-store' });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setOrders(data.orders);
+      setError('');
     } catch (err) {
-      setError(err.message);
+      if (!silent) setError(err.message);
     } finally {
-      setLoadingOrders(false);
+      if (!silent) setLoadingOrders(false);
     }
   };
 
