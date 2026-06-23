@@ -20,10 +20,13 @@ export async function POST(req) {
     }
 
     let newStatus = 'pending';
+    let mpPaymentStatus = mpStatus ?? null;
+
     try {
       const paymentApi = new Payment(client);
       const payment = await paymentApi.get({ id: paymentId });
       newStatus = MP_STATUS_MAP[payment.status] ?? 'pending';
+      mpPaymentStatus = payment.status;
     } catch {
       // Si la API falla, usar el status que MP mandó en la URL de redirección
     }
@@ -44,7 +47,7 @@ export async function POST(req) {
       .update({
         status: newStatus,
         mp_payment_id: String(paymentId),
-        mp_status: payment.status,
+        mp_status: mpPaymentStatus,
       })
       .eq('id', orderId);
 
