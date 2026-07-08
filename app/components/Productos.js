@@ -10,7 +10,10 @@ export default function Productos({ searchTerm }) {
 
   useEffect(() => {
     let mounted = true;
-    fetch('/api/products', { cache: 'no-store' })
+    fetch(`/api/products?t=${Date.now()}`, {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache, no-store', Pragma: 'no-cache' },
+    })
       .then(r => r.json())
       .then(data => {
         if (!mounted) return;
