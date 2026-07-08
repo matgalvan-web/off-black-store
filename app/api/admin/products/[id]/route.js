@@ -11,7 +11,7 @@ function getAdmin() {
 export async function PATCH(request, { params }) {
   const { id } = params;
   const body = await request.json();
-  const { nombre, precio, imagen, categoria, talles, stock } = body;
+  const { nombre, precio, imagen, categoria, talles, colores, stock } = body;
 
   const updates = {};
   if (nombre !== undefined) updates.nombre = nombre;
@@ -19,6 +19,7 @@ export async function PATCH(request, { params }) {
   if (imagen !== undefined) updates.imagen = imagen;
   if (categoria !== undefined) updates.descripcion = categoria;
   if (talles !== undefined) updates.talles = talles;
+  if (colores !== undefined) updates.colores = colores;
   if (stock !== undefined) updates.stock = Number(stock);
   updates.updated_at = new Date().toISOString();
 

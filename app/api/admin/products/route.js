@@ -22,7 +22,7 @@ export async function GET() {
 
 export async function POST(request) {
   const body = await request.json();
-  const { nombre, precio, imagen, categoria, talles, stock } = body;
+  const { nombre, precio, imagen, categoria, talles, colores, stock } = body;
 
   if (!nombre || !precio) {
     return Response.json({ error: 'Nombre y precio son obligatorios' }, { status: 400 });
@@ -36,7 +36,7 @@ export async function POST(request) {
       imagen: imagen || '',
       descripcion: categoria || '',
       talles: talles || [],
-      colores: [],
+      colores: colores || [],
       stock: Number(stock) || 0,
     }])
     .select()
