@@ -201,38 +201,51 @@ export default function CheckoutPage() {
           <section className="checkout-form-section">
             <h2 className="checkout-section-title">DATOS DE ENVÍO</h2>
             <div className="checkout-form">
-              <label className="checkout-label">Nombre completo *</label>
+              <label className="checkout-label" htmlFor="shipping-name">Nombre completo *</label>
               <input
+                id="shipping-name"
                 className={`checkout-input${nameError ? ' checkout-input-error' : ''}`}
                 type="text"
                 placeholder="Ej: Juan Pérez"
                 value={shippingName}
                 onChange={(e) => handleNameChange(e.target.value)}
+                autoComplete="name"
+                aria-describedby={nameError ? 'name-error' : undefined}
+                aria-invalid={!!nameError}
               />
-              {nameError && <span className="checkout-field-error">{nameError}</span>}
+              {nameError && <span id="name-error" className="checkout-field-error" role="alert">{nameError}</span>}
 
-              <label className="checkout-label">Dirección de envío *</label>
+              <label className="checkout-label" htmlFor="shipping-address">Dirección de envío *</label>
               <input
+                id="shipping-address"
                 className={`checkout-input${addressError ? ' checkout-input-error' : ''}`}
                 type="text"
                 placeholder="Calle, número, ciudad (ej: Rivadavia 1234, CABA)"
                 value={shippingAddress}
                 onChange={(e) => handleAddressChange(e.target.value)}
+                autoComplete="street-address"
+                aria-describedby={addressError ? 'address-error' : undefined}
+                aria-invalid={!!addressError}
               />
-              {addressError && <span className="checkout-field-error">{addressError}</span>}
+              {addressError && <span id="address-error" className="checkout-field-error" role="alert">{addressError}</span>}
 
-              <label className="checkout-label">Teléfono (opcional)</label>
+              <label className="checkout-label" htmlFor="shipping-phone">Teléfono (opcional)</label>
               <input
+                id="shipping-phone"
                 className={`checkout-input${phoneError ? ' checkout-input-error' : ''}`}
                 type="tel"
                 placeholder="Ej: 11 1234-5678"
                 value={shippingPhone}
                 onChange={(e) => handlePhoneChange(e.target.value)}
+                autoComplete="tel"
+                aria-describedby={phoneError ? 'phone-error' : undefined}
+                aria-invalid={!!phoneError}
               />
-              {phoneError && <span className="checkout-field-error">{phoneError}</span>}
+              {phoneError && <span id="phone-error" className="checkout-field-error" role="alert">{phoneError}</span>}
 
-              <label className="checkout-label">Método de pago *</label>
+              <label className="checkout-label" htmlFor="metodo-pago">Método de pago *</label>
               <select
+                id="metodo-pago"
                 className="checkout-input"
                 value={metodoPago}
                 onChange={(e) => setMetodoPago(e.target.value)}
