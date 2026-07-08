@@ -36,10 +36,14 @@ export default function CartProvider({ children }) {
 
   const addToCart = useCallback((producto) => {
     setCart(prev => {
-      const existingItem = prev.find(item => item.id === producto.id && item.color === producto.color);
+      const isSameVariant = (item) =>
+        item.id === producto.id &&
+        item.color === producto.color &&
+        (item.talleSeleccionado || null) === (producto.talleSeleccionado || null);
+      const existingItem = prev.find(isSameVariant);
       if (existingItem) {
         return prev.map(item =>
-          item.id === producto.id && item.color === producto.color
+          isSameVariant(item)
             ? { ...item, cantidad: (item.cantidad || 1) + 1 }
             : item
         );
