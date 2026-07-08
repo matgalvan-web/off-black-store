@@ -2166,6 +2166,29 @@ body::-webkit-scrollbar-thumb:hover {
   letter-spacing: 1px;
 }
 
+.admin-stat-sublabel {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: #444;
+  letter-spacing: 0.5px;
+}
+
+.admin-stat-confirmed {
+  border-color: #1a3a1a;
+}
+
+.admin-stat-confirmed .admin-stat-value {
+  color: #4caf50;
+}
+
+.admin-stat-pending {
+  border-color: #3a2e1a;
+}
+
+.admin-stat-pending .admin-stat-value {
+  color: #ff9800;
+}
+
 .admin-tabs {
   display: flex;
   border-bottom: 1px solid #222;

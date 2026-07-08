@@ -211,7 +211,9 @@ export default function AdminPage() {
   const totalRevenue = orders
     .filter(o => o.status === 'paid' || o.status === 'shipped')
     .reduce((acc, o) => acc + (o.total || 0), 0);
-  const pendingCount = orders.filter(o => o.status === 'pending').length;
+  const pendingOrders = orders.filter(o => o.status === 'pending');
+  const pendingCount = pendingOrders.length;
+  const pendingRevenue = pendingOrders.reduce((acc, o) => acc + (o.total || 0), 0);
 
   return (
     <main className="admin-page">
@@ -241,9 +243,15 @@ export default function AdminPage() {
           <span className="admin-stat-value">{pendingCount}</span>
           <span className="admin-stat-label">PENDIENTES</span>
         </div>
-        <div className="admin-stat">
+        <div className="admin-stat admin-stat-confirmed">
           <span className="admin-stat-value">${totalRevenue.toLocaleString('es-AR')}</span>
-          <span className="admin-stat-label">INGRESOS CONFIRMADOS</span>
+          <span className="admin-stat-label">INGRESOS COBRADOS</span>
+          <span className="admin-stat-sublabel">(pagado + enviado)</span>
+        </div>
+        <div className="admin-stat admin-stat-pending">
+          <span className="admin-stat-value">${pendingRevenue.toLocaleString('es-AR')}</span>
+          <span className="admin-stat-label">INGRESOS PENDIENTES</span>
+          <span className="admin-stat-sublabel">(aún no cobrado)</span>
         </div>
         <div className="admin-stat">
           <span className="admin-stat-value">{products.length}</span>
