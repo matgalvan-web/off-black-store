@@ -59,7 +59,15 @@ off-black-store/
 │   │   ├── register/           # POST /api/register
 │   │   ├── create-order/       # POST /api/create-order
 │   │   ├── create-preference/  # POST /api/create-preference
-│   │   └── seed-products/      # POST /api/seed-products
+│   │   ├── seed-products/      # POST /api/seed-products
+│   │   ├── admin/
+│   │   │   ├── orders/         # GET /api/admin/orders
+│   │   │   │   └── [id]/       # PATCH, DELETE /api/admin/orders/[id]
+│   │   │   └── products/       # GET, POST /api/admin/products
+│   │   │       └── [id]/       # PATCH, DELETE /api/admin/products/[id]
+│   │   └── pagos/
+│   │       ├── confirmar/      # POST /api/pagos/confirmar
+│   │       └── webhook/        # POST /api/pagos/webhook
 │   ├── components/             # Componentes React
 │   ├── context/                # AuthContext, CartContext
 │   ├── data/                   # productos.js (fuente local)
@@ -91,7 +99,7 @@ off-black-store/
 - Checkout con datos de envío
 - Integración completa con MercadoPago (sandbox y producción)
 - Páginas de resultado de pago (exitoso, fallido, pendiente)
-- Panel de administración con gestión de órdenes
+- Panel de administración con gestión de órdenes y CRUD completo de productos
 - Roles de usuario (cliente / admin) con Row Level Security en Supabase
 - Webhook para actualización automática del estado de órdenes
 
@@ -107,6 +115,12 @@ off-black-store/
 | GET | `/api/admin/orders` | Lista todas las órdenes (solo admin) |
 | PATCH | `/api/admin/orders/[id]` | Actualiza el estado de una orden (solo admin) |
 | DELETE | `/api/admin/orders/[id]` | Elimina una orden (solo admin) |
+| GET | `/api/admin/products` | Lista todos los productos de Supabase (solo admin) |
+| POST | `/api/admin/products` | Crea un nuevo producto (solo admin) |
+| PATCH | `/api/admin/products/[id]` | Edita un producto existente (solo admin) |
+| DELETE | `/api/admin/products/[id]` | Elimina un producto (solo admin) |
+
+Los endpoints `/api/admin/*` usan el cliente Supabase con `SUPABASE_SERVICE_ROLE_KEY` para saltear las políticas RLS y operar como superusuario. Solo son accesibles desde el servidor (API Routes de Next.js).
 
 ## Flujo de pago
 
