@@ -38,10 +38,8 @@ export default function CheckoutPage() {
 
   const validatePhone = (value) => {
     if (!value) return '';
-    const digits = value.replace(/[\s\-().+]/g, '');
-    if (!/^\d+$/.test(digits)) return 'Solo se permiten números, espacios, guiones y paréntesis';
-    if (digits.length < 7) return 'El número es demasiado corto (mínimo 7 dígitos)';
-    if (digits.length > 15) return 'El número es demasiado largo (máximo 15 dígitos)';
+    if (value.length < 7) return 'El número es demasiado corto (mínimo 7 dígitos)';
+    if (value.length > 15) return 'El número es demasiado largo (máximo 15 dígitos)';
     return '';
   };
 
@@ -56,8 +54,9 @@ export default function CheckoutPage() {
   };
 
   const handlePhoneChange = (value) => {
-    setShippingPhone(value);
-    setPhoneError(validatePhone(value));
+    const onlyDigits = value.replace(/\D/g, '');
+    setShippingPhone(onlyDigits);
+    setPhoneError(validatePhone(onlyDigits));
   };
 
   const total = cart.reduce((acc, item) => acc + item.precio * item.cantidad, 0);

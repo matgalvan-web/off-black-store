@@ -153,6 +153,14 @@ export default function AdminPage() {
       alert('Nombre y precio son obligatorios');
       return;
     }
+    if (Number(productForm.precio) <= 0) {
+      alert('El precio debe ser mayor a 0');
+      return;
+    }
+    if (Number(productForm.stock) < 0) {
+      alert('El stock no puede ser negativo');
+      return;
+    }
     setSavingProduct(true);
     try {
       const payload = {
@@ -441,10 +449,13 @@ export default function AdminPage() {
               <input
                 className="checkout-input"
                 type="number"
-                min="0"
+                min="1"
                 placeholder="Ej: 150000"
                 value={productForm.precio}
-                onChange={e => setProductForm(f => ({ ...f, precio: e.target.value }))}
+                onChange={e => {
+                  const v = e.target.value;
+                  if (v === '' || Number(v) >= 0) setProductForm(f => ({ ...f, precio: v }));
+                }}
                 required
               />
 
@@ -482,7 +493,10 @@ export default function AdminPage() {
                 min="0"
                 placeholder="Ej: 10"
                 value={productForm.stock}
-                onChange={e => setProductForm(f => ({ ...f, stock: e.target.value }))}
+                onChange={e => {
+                  const v = e.target.value;
+                  if (v === '' || Number(v) >= 0) setProductForm(f => ({ ...f, stock: v }));
+                }}
               />
 
               <button
