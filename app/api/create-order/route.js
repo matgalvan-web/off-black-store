@@ -41,10 +41,13 @@ export async function POST(req) {
       if (!prod) continue;
 
       if (size && Array.isArray(prod.talles) && prod.talles.length > 0) {
-        const talleObj = prod.talles.find(t => (typeof t === 'object' ? t.nombre : t) === size);
-        const talleStock = talleObj && typeof talleObj === 'object' && typeof talleObj.stock === 'number'
-          ? talleObj.stock
-          : (prod.stock ?? 0);
+        const parseTalle = (t) => {
+          if (typeof t === 'object') return t;
+          const [n, s] = t.split(':');
+          return { nombre: n.trim(), stock: s !== undefined ? Number(s) : (prod.stock ?? 0) };
+        };
+        const talleObj = prod.talles.map(parseTalle).find(t => t.nombre === size);
+        const talleStock = talleObj ? talleObj.stock : 0;
         if (talleStock < qty) {
           return NextResponse.json({
             success: false,

@@ -15,9 +15,11 @@ export default function ProductDetail({ producto }) {
   const router = useRouter();
 
   const normalizeTalles = (talles, fallbackStock) =>
-    (talles || []).map(t =>
-      typeof t === 'object' ? t : { nombre: t, stock: fallbackStock ?? 0 }
-    );
+    (talles || []).map(t => {
+      if (typeof t === 'object') return t;
+      const [nombre, stockStr] = t.split(':');
+      return { nombre: nombre.trim(), stock: stockStr !== undefined ? Number(stockStr) : (fallbackStock ?? 0) };
+    });
 
   const tallesNorm = normalizeTalles(producto.talles, producto.stock);
   const hasTalles = tallesNorm.length > 0;

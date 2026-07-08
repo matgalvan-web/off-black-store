@@ -50,10 +50,12 @@ export async function PATCH(request, { params }) {
 
       if (size && Array.isArray(prod.talles) && prod.talles.length > 0) {
         const updatedTalles = prod.talles.map(t => {
-          const nombre = typeof t === 'object' ? t.nombre : t;
-          if (nombre !== size) return typeof t === 'object' ? t : { nombre: t, stock: prod.stock ?? 0 };
-          const currentStock = typeof t === 'object' && typeof t.stock === 'number' ? t.stock : (prod.stock ?? 0);
-          return { nombre, stock: Math.max(0, currentStock - qty) };
+          const isObj = typeof t === 'object';
+          const nombre = isObj ? t.nombre : t.split(':')[0].trim();
+          const currentStock = isObj ? (t.stock ?? 0) : (Number(t.split(':')[1]) ?? prod.stock ?? 0);
+          if (nombre !== size) return t;
+          const newStock = Math.max(0, currentStock - qty);
+          return isObj ? { ...t, stock: newStock } : `${nombre}:${newStock}`;
         });
         await getAdmin()
           .from('products')

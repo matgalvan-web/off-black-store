@@ -125,9 +125,7 @@ export default function AdminPage() {
 
   const openEditProduct = (p) => {
     setEditingProduct(p);
-    const tallesStr = Array.isArray(p.talles)
-      ? p.talles.map(t => typeof t === 'object' ? `${t.nombre}:${t.stock ?? 0}` : t).join(', ')
-      : '';
+    const tallesStr = Array.isArray(p.talles) ? p.talles.join(', ') : '';
     setProductForm({
       nombre: p.nombre || '',
       precio: p.precio || '',
@@ -176,9 +174,7 @@ export default function AdminPage() {
               const [nombre, stockStr] = t.trim().split(':');
               const n = nombre?.trim();
               if (!n) return null;
-              return stockStr !== undefined
-                ? { nombre: n, stock: Math.max(0, Number(stockStr.trim()) || 0) }
-                : n;
+              return stockStr !== undefined ? `${n}:${Math.max(0, Number(stockStr.trim()) || 0)}` : n;
             }).filter(Boolean)
           : [],
         stock: Number(productForm.stock) || 0,
