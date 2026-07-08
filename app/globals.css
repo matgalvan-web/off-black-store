@@ -693,6 +693,25 @@ body::-webkit-scrollbar-thumb:hover {
   font-weight: 700;
 }
 
+.size-option-agotado {
+  opacity: 0.35;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  position: relative;
+}
+
+.size-option-agotado:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.15);
+  color: #a2a2a2;
+}
+
+.talle-agotado-mark {
+  font-size: 0.6rem;
+  margin-left: 2px;
+  color: #e53935;
+}
+
 .cart-item-detail {
   font-size: 0.7rem;
   color: #888;

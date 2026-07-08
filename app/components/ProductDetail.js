@@ -11,19 +11,33 @@ export default function ProductDetail({ producto }) {
   const [selectedColor, setSelectedColor] = useState(
     producto.colores?.[0] || { nombre: '', imagen: producto.imagen }
   );
-  const [selectedSize, setSelectedSize] = useState(producto?.talles?.[0] || '');
+  const [selectedSize, setSelectedSize] = useState('');
   const router = useRouter();
+
+  const normalizeTalles = (talles, fallbackStock) =>
+    (talles || []).map(t =>
+      typeof t === 'object' ? t : { nombre: t, stock: fallbackStock ?? 0 }
+    );
+
+  const tallesNorm = normalizeTalles(producto.talles, producto.stock);
+  const hasTalles = tallesNorm.length > 0;
 
   useEffect(() => {
     setSelectedColor(
       producto.colores?.[0] || { nombre: '', imagen: producto.imagen }
     );
-    setSelectedSize(producto?.talles?.[0] || '');
+    const norm = normalizeTalles(producto.talles, producto.stock);
+    const firstAvailable = norm.find(t => t.stock > 0);
+    setSelectedSize(firstAvailable?.nombre || norm[0]?.nombre || '');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [producto.id]);
 
-  const outOfStock = typeof producto.stock === 'number' && producto.stock === 0;
-  const lowStock = !outOfStock && typeof producto.stock === 'number' && producto.stock > 0 && producto.stock <= 3;
+  const selectedTalleObj = hasTalles ? tallesNorm.find(t => t.nombre === selectedSize) : null;
+  const currentStock = hasTalles ? (selectedTalleObj?.stock ?? 0) : (producto.stock ?? 0);
+  const outOfStock = hasTalles
+    ? (tallesNorm.every(t => t.stock === 0) || currentStock === 0)
+    : (typeof producto.stock === 'number' && producto.stock === 0);
+  const lowStock = !outOfStock && currentStock > 0 && currentStock <= 3;
 
   const handleAddToCart = () => {
     if (outOfStock) return;
@@ -69,7 +83,7 @@ export default function ProductDetail({ producto }) {
               <p className="stock-badge stock-out">SIN STOCK</p>
             )}
             {lowStock && (
-              <p className="stock-badge stock-low">ÚLTIMAS {producto.stock} UNIDADES</p>
+              <p className="stock-badge stock-low">ÚLTIMAS {currentStock} UNIDADES{hasTalles && selectedSize ? ` (talle ${selectedSize})` : ''}</p>
             )}
 
             {producto.colores && producto.colores.length > 1 && (
@@ -90,19 +104,25 @@ export default function ProductDetail({ producto }) {
               </div>
             )}
 
-            {producto.talles && producto.talles.length > 0 && (
+            {hasTalles && (
               <div className="size-selection">
                 <p className="size-label">Talle: <strong>{selectedSize}</strong></p>
                 <div className="size-options">
-                  {producto.talles.map((talle, index) => (
-                    <button
-                      key={index}
-                      className={`size-option ${selectedSize === talle ? 'selected' : ''}`}
-                      onClick={() => setSelectedSize(talle)}
-                    >
-                      {talle}
-                    </button>
-                  ))}
+                  {tallesNorm.map((talle, index) => {
+                    const sinStock = talle.stock === 0;
+                    return (
+                      <button
+                        key={index}
+                        className={`size-option ${selectedSize === talle.nombre ? 'selected' : ''} ${sinStock ? 'size-option-agotado' : ''}`}
+                        onClick={() => !sinStock && setSelectedSize(talle.nombre)}
+                        disabled={sinStock}
+                        title={sinStock ? 'Sin stock' : `Stock: ${talle.stock}`}
+                      >
+                        {talle.nombre}
+                        {sinStock && <span className="talle-agotado-mark">✕</span>}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}

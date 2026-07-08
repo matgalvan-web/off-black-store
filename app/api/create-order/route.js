@@ -27,29 +27,35 @@ export async function POST(req) {
     const supabaseAdmin = createClient(supabaseUrl, serviceRole, { auth: { persistSession: false } });
 
     // Verificar stock antes de crear la orden
-    const productIds = items.map(it => it.product_id).filter(Boolean);
-    if (productIds.length > 0) {
-      const { data: stockData, error: stockError } = await supabaseAdmin
+    for (const item of items) {
+      if (!item.product_id) continue;
+      const qty = item.cantidad || 1;
+      const size = item.size;
+
+      const { data: prod } = await supabaseAdmin
         .from('products')
-        .select('id, nombre, stock')
-        .in('id', productIds);
+        .select('id, nombre, stock, talles')
+        .eq('id', item.product_id)
+        .single();
 
-      if (stockError) {
-        return NextResponse.json({ success: false, error: 'Error verificando stock' }, { status: 500 });
-      }
+      if (!prod) continue;
 
-      const stockMap = {};
-      (stockData || []).forEach(p => { stockMap[p.id] = p; });
-
-      for (const item of items) {
-        const prod = stockMap[item.product_id];
-        if (!prod || typeof prod.stock !== 'number') continue;
-        if (prod.stock < (item.cantidad || 1)) {
+      if (size && Array.isArray(prod.talles) && prod.talles.length > 0) {
+        const talleObj = prod.talles.find(t => (typeof t === 'object' ? t.nombre : t) === size);
+        const talleStock = talleObj && typeof talleObj === 'object' && typeof talleObj.stock === 'number'
+          ? talleObj.stock
+          : (prod.stock ?? 0);
+        if (talleStock < qty) {
           return NextResponse.json({
             success: false,
-            error: `Sin stock suficiente para "${prod.nombre}". Stock disponible: ${prod.stock}.`,
+            error: `Sin stock del talle ${size} para "${prod.nombre}". Stock disponible: ${talleStock}.`,
           }, { status: 400 });
         }
+      } else if (typeof prod.stock === 'number' && prod.stock < qty) {
+        return NextResponse.json({
+          success: false,
+          error: `Sin stock suficiente para "${prod.nombre}". Stock disponible: ${prod.stock}.`,
+        }, { status: 400 });
       }
     }
 
@@ -69,25 +75,6 @@ export async function POST(req) {
 
     if (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-    }
-
-    // Descontar stock para cada ítem
-    for (const item of items) {
-      if (!item.product_id) continue;
-      const qty = item.cantidad || 1;
-
-      const { data: prod } = await supabaseAdmin
-        .from('products')
-        .select('stock')
-        .eq('id', item.product_id)
-        .single();
-
-      if (prod && typeof prod.stock === 'number') {
-        await supabaseAdmin
-          .from('products')
-          .update({ stock: Math.max(0, prod.stock - qty), updated_at: new Date().toISOString() })
-          .eq('id', item.product_id);
-      }
     }
 
     await supabaseAdmin.from('cart_items').delete().eq('user_id', userId);

@@ -125,12 +125,15 @@ export default function AdminPage() {
 
   const openEditProduct = (p) => {
     setEditingProduct(p);
+    const tallesStr = Array.isArray(p.talles)
+      ? p.talles.map(t => typeof t === 'object' ? `${t.nombre}:${t.stock ?? 0}` : t).join(', ')
+      : '';
     setProductForm({
       nombre: p.nombre || '',
       precio: p.precio || '',
       imagen: p.imagen || '',
       categoria: p.descripcion || '',
-      talles: Array.isArray(p.talles) ? p.talles.join(', ') : '',
+      talles: tallesStr,
       stock: p.stock ?? '',
     });
     setShowProductModal(true);
@@ -169,7 +172,14 @@ export default function AdminPage() {
         imagen: productForm.imagen.trim(),
         categoria: productForm.categoria.trim(),
         talles: productForm.talles
-          ? productForm.talles.split(',').map(t => t.trim()).filter(Boolean)
+          ? productForm.talles.split(',').map(t => {
+              const [nombre, stockStr] = t.trim().split(':');
+              const n = nombre?.trim();
+              if (!n) return null;
+              return stockStr !== undefined
+                ? { nombre: n, stock: Math.max(0, Number(stockStr.trim()) || 0) }
+                : n;
+            }).filter(Boolean)
           : [],
         stock: Number(productForm.stock) || 0,
       };
@@ -485,11 +495,11 @@ export default function AdminPage() {
                 onChange={e => setProductForm(f => ({ ...f, categoria: e.target.value }))}
               />
 
-              <label className="checkout-label">Talles (separados por coma)</label>
+              <label className="checkout-label">Talles con stock (nombre:cantidad, separados por coma)</label>
               <input
                 className="checkout-input"
                 type="text"
-                placeholder="Ej: S, M, L, XL"
+                placeholder="Ej: S:10, M:5, L:8, XL:3"
                 value={productForm.talles}
                 onChange={e => setProductForm(f => ({ ...f, talles: e.target.value }))}
               />
