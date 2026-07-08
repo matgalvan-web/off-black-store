@@ -38,9 +38,10 @@ export default function CheckoutPage() {
 
   const validatePhone = (value) => {
     if (!value) return '';
-    if (!/^\d+$/.test(value)) return 'El teléfono solo puede contener números (ej: 1112345678)';
-    if (value.length < 7) return 'El número es demasiado corto (mínimo 7 dígitos)';
-    if (value.length > 15) return 'El número es demasiado largo (máximo 15 dígitos)';
+    if (!/^\+?\d+$/.test(value)) return 'Solo se permiten números y opcionalmente + al inicio para el código de país (ej: +541112345678)';
+    const digits = value.replace('+', '');
+    if (digits.length < 7) return 'El número es demasiado corto (mínimo 7 dígitos)';
+    if (digits.length > 15) return 'El número es demasiado largo (máximo 15 dígitos)';
     return '';
   };
 
