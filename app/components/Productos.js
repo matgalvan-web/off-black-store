@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { getProducts } from '../../lib/supabaseOperations';
 
 export default function Productos({ searchTerm }) {
   const [productos, setProductos] = useState([]);
@@ -11,10 +10,12 @@ export default function Productos({ searchTerm }) {
 
   useEffect(() => {
     let mounted = true;
-    getProducts().then(res => {
-      if (!mounted) return;
-      if (res.success) setProductos(res.products || []);
-    });
+    fetch('/api/products', { cache: 'no-store' })
+      .then(r => r.json())
+      .then(data => {
+        if (!mounted) return;
+        setProductos(data.products || []);
+      });
     return () => { mounted = false; };
   }, []);
 

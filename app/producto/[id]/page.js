@@ -1,14 +1,25 @@
+import { createClient } from '@supabase/supabase-js';
 import ProductDetail from '../../components/ProductDetail';
-import { getProductById } from '../../../lib/supabaseOperations';
 import { notFound } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
+async function getProduct(id) {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
+    { auth: { persistSession: false } }
+  );
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .eq('id', id)
+    .single();
+  return error ? null : data;
+}
+
 export default async function ProductoPage({ params }) {
-  const { id } = params;
-  const result = await getProductById(id);
-
-  if (!result.success || !result.product) notFound();
-
-  return <ProductDetail producto={result.product} />;
+  const product = await getProduct(params.id);
+  if (!product) notFound();
+  return <ProductDetail producto={product} />;
 }

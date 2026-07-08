@@ -37,8 +37,8 @@ export default function FeaturedCollections() {
     }
   ];
 
-  const handleProductClick = (id) => {
-    router.push(`/producto/${id}`);
+  const handleProductClick = () => {
+    document.getElementById('productos')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -50,11 +50,11 @@ export default function FeaturedCollections() {
           <article
             key={item.id}
             className="feature-card"
-            onClick={() => handleProductClick(item.id)}
-            onKeyDown={(e) => e.key === 'Enter' && handleProductClick(item.id)}
+            onClick={() => handleProductClick()}
+            onKeyDown={(e) => e.key === 'Enter' && handleProductClick()}
             role="button"
             tabIndex={0}
-            aria-label={`Ver producto: ${item.titulo}`}
+            aria-label={`Ver colección: ${item.titulo}`}
             style={{ cursor: 'pointer' }}
           >
             <Image src={item.imagen} alt={item.titulo} width={600} height={280} />
