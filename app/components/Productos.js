@@ -35,22 +35,26 @@ export default function Productos({ searchTerm }) {
       <div className="section-label">TIENDA</div>
       <div className="section-title">NUESTROS PRODUCTOS</div>
       <div className="productos-grid">
-        {filtrados.map((producto) => (
-          <Link
-            key={producto.id}
-            href={`/producto/${producto.id}`}
-            className="producto-item"
-            aria-label={`Ver ${producto.nombre} - $${producto.precio.toLocaleString('es-AR')}`}
-          >
-            <div className="image-box">
-              <Image src={producto.imagen} alt={producto.nombre} width={400} height={280} />
-            </div>
-            <div className="item-meta">
-              <span>{producto.nombre}</span>
-              <span>${producto.precio.toLocaleString('es-AR')}</span>
-            </div>
-          </Link>
-        ))}
+        {filtrados.map((producto) => {
+          const sinStock = typeof producto.stock === 'number' && producto.stock === 0;
+          return (
+            <Link
+              key={producto.id}
+              href={`/producto/${producto.id}`}
+              className={`producto-item${sinStock ? ' producto-sin-stock' : ''}`}
+              aria-label={`Ver ${producto.nombre} - $${producto.precio.toLocaleString('es-AR')}${sinStock ? ' - Sin stock' : ''}`}
+            >
+              <div className="image-box">
+                <Image src={producto.imagen} alt={producto.nombre} width={400} height={280} />
+                {sinStock && <span className="catalog-sin-stock-label">SIN STOCK</span>}
+              </div>
+              <div className="item-meta">
+                <span>{producto.nombre}</span>
+                <span>${producto.precio.toLocaleString('es-AR')}</span>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );

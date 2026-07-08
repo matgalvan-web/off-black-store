@@ -133,7 +133,7 @@ export default function CheckoutPage() {
 
       const orderData = await orderRes.json();
       if (!orderData.success) {
-        setMessage('Error creando la orden: ' + orderData.error);
+        setMessage(orderData.error || 'Error al crear la orden');
         setLoading(false);
         return;
       }

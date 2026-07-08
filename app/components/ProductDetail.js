@@ -22,7 +22,11 @@ export default function ProductDetail({ producto }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [producto.id]);
 
+  const outOfStock = typeof producto.stock === 'number' && producto.stock === 0;
+  const lowStock = !outOfStock && typeof producto.stock === 'number' && producto.stock > 0 && producto.stock <= 3;
+
   const handleAddToCart = () => {
+    if (outOfStock) return;
     addToCart({
       ...producto,
       imagen: selectedColor.imagen,
@@ -61,6 +65,13 @@ export default function ProductDetail({ producto }) {
             <h1 className="product-detail-title">{producto.nombre}</h1>
             <p className="product-detail-price">{formatPrice(producto.precio)}</p>
 
+            {outOfStock && (
+              <p className="stock-badge stock-out">SIN STOCK</p>
+            )}
+            {lowStock && (
+              <p className="stock-badge stock-low">ÚLTIMAS {producto.stock} UNIDADES</p>
+            )}
+
             {producto.colores && producto.colores.length > 1 && (
               <div className="color-selection">
                 <p className="color-label">Color: <strong>{selectedColor.nombre}</strong></p>
@@ -96,8 +107,13 @@ export default function ProductDetail({ producto }) {
               </div>
             )}
 
-            <button className="add-to-cart-button" onClick={handleAddToCart}>
-              Agregar al Carrito
+            <button
+              className={`add-to-cart-button${outOfStock ? ' add-to-cart-disabled' : ''}`}
+              onClick={handleAddToCart}
+              disabled={outOfStock}
+              aria-disabled={outOfStock}
+            >
+              {outOfStock ? 'SIN STOCK' : 'AGREGAR AL CARRITO'}
             </button>
           </div>
         </div>
