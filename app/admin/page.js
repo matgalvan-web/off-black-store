@@ -281,14 +281,14 @@ export default function AdminPage() {
                 <tbody>
                   {orders.map(order => (
                     <tr key={order.id}>
-                      <td>{new Date(order.created_at).toLocaleDateString('es-AR')}</td>
-                      <td>
+                      <td data-label="FECHA">{new Date(order.created_at).toLocaleDateString('es-AR')}</td>
+                      <td data-label="CLIENTE">
                         <div className="admin-customer">
                           <span>{order.users?.name || '—'}</span>
                           <span className="admin-customer-email">{order.users?.email || '—'}</span>
                         </div>
                       </td>
-                      <td>
+                      <td data-label="PRODUCTOS">
                         <div className="admin-items-list">
                           {Array.isArray(order.items) && order.items.map((item, i) => (
                             <div key={i} className="admin-order-item">
@@ -300,13 +300,13 @@ export default function AdminPage() {
                           ))}
                         </div>
                       </td>
-                      <td>${(order.total || 0).toLocaleString('es-AR')}</td>
-                      <td>
+                      <td data-label="TOTAL">${(order.total || 0).toLocaleString('es-AR')}</td>
+                      <td data-label="ESTADO">
                         <span className={`admin-status-badge status-${order.status}`}>
                           {STATUS_LABELS[order.status] || order.status}
                         </span>
                       </td>
-                      <td className="admin-actions-cell">
+                      <td data-label="ACCIONES" className="admin-actions-cell">
                         <select
                           value={order.status}
                           onChange={(e) => updateStatus(order.id, e.target.value)}
