@@ -4,7 +4,6 @@ import { useContext, useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import FeaturedCollections from './components/FeaturedCollections';
-import Lookbook from './components/Lookbook';
 import Productos from './components/Productos';
 import ProductModal from './components/ProductModal';
 import CartModal from './components/CartModal';
@@ -59,10 +58,7 @@ export default function Home() {
           <FeaturedCollections onProductClick={handleProductClick} />
         )}
         
-        {!showSearchResults && (
-          <Lookbook onProductClick={handleProductClick} />
-        )}
-        
+
         <Productos 
           searchTerm={searchTerm} 
           onProductClick={handleProductClick}
