@@ -2247,6 +2247,13 @@ body::-webkit-scrollbar-thumb:hover {
   font-size: 0.7rem;
 }
 
+.admin-customer-address,
+.admin-customer-phone {
+  color: #666;
+  font-size: 0.68rem;
+  margin-top: 1px;
+}
+
 .admin-items-list {
   display: flex;
   flex-direction: column;

@@ -18,7 +18,7 @@ function getAdmin() {
 export async function GET() {
   const { data, error } = await getAdmin()
     .from('orders')
-    .select('*')
+    .select('*, users(name, email)')
     .order('created_at', { ascending: false });
 
   if (error) return Response.json({ error: error.message }, { status: 500 });

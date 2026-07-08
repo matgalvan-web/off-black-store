@@ -284,8 +284,14 @@ export default function AdminPage() {
                       <td data-label="FECHA">{new Date(order.created_at).toLocaleDateString('es-AR')}</td>
                       <td data-label="CLIENTE">
                         <div className="admin-customer">
-                          <span>{order.users?.name || '—'}</span>
-                          <span className="admin-customer-email">{order.users?.email || '—'}</span>
+                          <span>{order.shipping_address?.name || order.users?.name || '—'}</span>
+                          <span className="admin-customer-email">{order.shipping_address?.email || order.users?.email || '—'}</span>
+                          {order.shipping_address?.address && (
+                            <span className="admin-customer-address">📍 {order.shipping_address.address}</span>
+                          )}
+                          {order.shipping_address?.phone && (
+                            <span className="admin-customer-phone">📞 {order.shipping_address.phone}</span>
+                          )}
                         </div>
                       </td>
                       <td data-label="PRODUCTOS">
