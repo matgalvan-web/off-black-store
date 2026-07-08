@@ -2291,6 +2291,96 @@ body::-webkit-scrollbar-thumb:hover {
   text-transform: uppercase;
 }
 
+.admin-products-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.admin-add-product-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.admin-add-product-btn:hover {
+  opacity: 0.8;
+}
+
+.admin-edit-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  background: #222;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 4px 10px;
+  cursor: pointer;
+  margin-right: 6px;
+  transition: background 0.2s;
+}
+
+.admin-edit-btn:hover {
+  background: #333;
+}
+
+.admin-product-thumb {
+  object-fit: cover;
+  border: 1px solid #222;
+}
+
+.admin-no-img {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: #555;
+}
+
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.admin-modal {
+  background: #0a0a0a;
+  border: 1px solid #222;
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.admin-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.admin-modal-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+.admin-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 /* ============================================================
    CHECKOUT PAGE
    ============================================================ */
