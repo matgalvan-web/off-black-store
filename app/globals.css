@@ -2382,6 +2382,121 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 /* ============================================================
+   ADMIN — RESPONSIVE MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .admin-page {
+    padding: 80px 12px 40px;
+  }
+
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .admin-title {
+    font-size: 2rem;
+  }
+
+  .admin-user-badge {
+    display: none;
+  }
+
+  .admin-tabs {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .admin-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-tab-btn {
+    white-space: nowrap;
+    padding: 10px 16px;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 10px 10px;
+    font-size: 0.7rem;
+  }
+
+  .admin-actions-cell {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .admin-status-select {
+    width: 100%;
+    font-size: 0.65rem;
+  }
+
+  .admin-products-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .admin-modal {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-table-wrapper {
+    font-size: 0.65rem;
+  }
+
+  /* Card layout for order rows on very small screens */
+  .admin-table thead {
+    display: none;
+  }
+
+  .admin-table,
+  .admin-table tbody,
+  .admin-table tr,
+  .admin-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .admin-table tr {
+    border: 1px solid #1a1a1a;
+    margin-bottom: 12px;
+    padding: 8px 0;
+  }
+
+  .admin-table td {
+    border-bottom: 1px solid #111;
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  .admin-table td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.6rem;
+    color: #555;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .admin-actions-cell {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .admin-status-select {
+    width: auto;
+    flex: 1;
+  }
+}
+
+/* ============================================================
    CHECKOUT PAGE
    ============================================================ */
 
