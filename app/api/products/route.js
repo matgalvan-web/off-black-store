@@ -16,6 +16,7 @@ export async function GET() {
     .select('*')
     .order('created_at', { ascending: true });
 
-  if (error) return Response.json({ error: error.message }, { status: 500 });
-  return Response.json({ products: data || [] });
+  const headers = { 'Cache-Control': 'no-store, no-cache, must-revalidate' };
+  if (error) return Response.json({ error: error.message }, { status: 500, headers });
+  return Response.json({ products: data || [] }, { headers });
 }

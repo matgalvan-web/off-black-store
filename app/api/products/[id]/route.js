@@ -18,6 +18,7 @@ export async function GET(request, { params }) {
     .eq('id', id)
     .single();
 
-  if (error) return Response.json({ error: error.message }, { status: 404 });
-  return Response.json({ product: data });
+  const headers = { 'Cache-Control': 'no-store, no-cache, must-revalidate' };
+  if (error) return Response.json({ error: error.message }, { status: 404, headers });
+  return Response.json({ product: data }, { headers });
 }
