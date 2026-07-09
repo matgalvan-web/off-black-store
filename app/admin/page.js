@@ -385,8 +385,7 @@ export default function AdminPage() {
                     <th>IMAGEN</th>
                     <th>NOMBRE</th>
                     <th>PRECIO</th>
-                    <th>TALLES</th>
-                    <th>STOCK</th>
+                    <th>TALLES / STOCK</th>
                     <th>ACCIONES</th>
                   </tr>
                 </thead>
@@ -411,9 +410,8 @@ export default function AdminPage() {
                       <td>
                         {Array.isArray(p.talles) && p.talles.length > 0
                           ? p.talles.join(', ')
-                          : '—'}
+                          : `Stock: ${p.stock ?? '—'}`}
                       </td>
-                      <td>{p.stock ?? '—'}</td>
                       <td className="admin-actions-cell">
                         <button
                           className="admin-edit-btn"
